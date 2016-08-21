@@ -1,0 +1,54 @@
+{% import "macros.html" as m %}
+<!DOCTYPE html>
+<html lang="en">
+	<div id="container">
+   		<div id="header">
+   			{% block head %}
+				<meta name='viewport' content="width=device-width, initial-scale=1">
+    			<meta name="mobile-web-app-capable" content="yes">
+				<meta charset="UTF-8">
+				<link rel="shortcut icon" href="/static/img/favicon.ico">
+				{% include "static.html" %}
+				<!-- Titre de l'onglet de navigation -->
+				<title>{{ titre }}</title>
+				<!-- Barre de navigation -->	
+				</div>
+			{% endblock %}
+   		<!-- Message flashing -->
+		{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+		    	<ul>
+		    		{% for categorie, message in messages %}
+		      			<li class="ui {{ categorie }} message flash">{{ message }}</li>
+		    		{% endfor %}
+		    	</ul>
+		  	{% endif %}
+		{% endwith %}
+   		<div id="body" class="body">
+   			{% block content %}{% endblock %}
+   		</div>
+		<div id="footer">
+			<div class="ui divider"></div>
+	    		<div class="ui divided horizontal footer link list">
+			      	<div class="item">
+			        	TaxiSID
+			      	</div>
+			      	<div class="item">
+			        	<a href="https://github.com/TaxiSID/"><i class="github icon"></i></a>
+			      	</div>
+	    		</div>
+	  		</div>
+		</div>
+	</div>
+</html>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+	$('.right.menu.open').on("click",function(e){
+        e.preventDefault();
+		$('.ui.vertical.menu').toggle();
+	});
+    
+	$('.ui.dropdown').dropdown();
+});
+</script>

@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+	<h1 class="ui header">{{ titre }}</h1>
+
+	{% if current_user.is_authenticated %}
+	  	<h2 class="ui header">Bonjour {{ current_user.prenom }}!</h2>
+	{% endif %}
+
+	<div class="ui centered grid">
+		<div class="sixteen wide column">
+			<h2 class="ui orange dividing header">LA CHARTE QUALITÉ DE CAPITOLE TAXI</h2>
+			<p><div class="ui blue inverted segment"><i class="small quote left icon"></i> La qualité, c'est la marque du professionnalisme <i class="small quote right icon"></i></div></p>
+			<p>Tous les adhérents à Capitole Taxi s'engagent à respecter scrupuleusement cette charte de qualité.</p>
+			<div class="ui list">
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Le chauffeur s'engage vis à vis de ses clients à mettre en oeuvre les moyens appropriés pour satisfaire ses besoins et ses attentes.</div>
+			    </div>
+			  </a>
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Par respect du client il se présentera toujours avec un véhicule dans un état de propreté impeccable.</div>
+			    </div>
+			  </a>
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">A offrir son aide pour l'ouverture et la fermeture des portes, à déposer et à retirer les bagages dans le coffre du véhicule.
+			      </div>
+			    </div>
+			  </a>
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Il sera tenu par le secret professionnel à ne pas divulguer le contenu des conversations qu'il aura eues avec ses clients.
+			      </div>
+			    </div>
+			  </a>
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Il respectera le silence de son client si celui-ci ne désire pas communiquer.</div>
+			    </div>
+			  </a>		
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Il s'efforcera d'être souriant, agréable et de s'exprimer avec courtoisie envers son client.</div>
+			    </div>
+			  </a>	
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Il respectera scrupuleusement les engagements contractuels pris par le groupement vis à vis des partenaires commerciaux (professionnels, entreprises, hôtels, etc...)</div>
+			    </div>
+			  </a>	
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Il s'engage à respecter les tarifications établies par le groupement et ce, en toutes circonstances.</div>
+			    </div>
+			  </a>		
+			  <a class="item">
+			    <i class="add orange circle icon"></i>
+			    <div class="content">
+			      <div class="header">Il visera à ce que toutes ces prestations, par leur qualité, contribuent à fidéliser les clients de manière durable.</div>
+			    </div>
+			  </a>		  	  		  		    		  		  
+			</div>
+
+			<p>Pour en savoir plus, vous pouvez aussi consulter notre <a href="/FAQ">foire aux questions</a>.</p>
+		</div>
+	</div>
+
+{% endblock %}

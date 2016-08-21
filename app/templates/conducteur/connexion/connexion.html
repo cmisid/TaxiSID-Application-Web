@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+{% if request.MOBILE %}
+	<div class="ui center raised very padded text container pink segment">
+{% else %}
+	<div class="ui formulaire-utilisateur center raised very padded text container pink segment">
+{% endif %}
+<div class="ui input focus">
+  <input id="num" placeholder="Taper votre numéro de téléphone" type="text">
+    <button class="ui primary button" onclick="accueil()">Valider
+  	</button>
+</div>
+
+<script language='javascript'>
+	function accueil(){
+		var num = document.getElementById("num").value; 
+		location.href = "http://localhost:5000/conducteur/"+ num;
+        }
+
+</script>
+
+{% endblock %}

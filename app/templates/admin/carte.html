@@ -1,0 +1,101 @@
+{% extends 'admin/master.html' %}
+
+{% block head_css %}
+    {{ super() }}
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <!-- Leaflet JS -->
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+    <!-- Leaflet CSS -->
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'/>
+    <!-- Map style -->
+    
+	<style>
+    #map {
+		width : 600px;
+        height: 550px;
+    }
+	#caseMap {
+		position : absolute;
+		right : 5%;
+	}
+    </style>
+	
+
+{% endblock %}
+
+
+{% block body %}
+<!--
+<TABLE >
+<tr>
+<td>
+<div id="info" name="info"></div>
+</td>
+<td id="caseMap">
+ -->   
+<div id="map"></div>
+<!--
+</td>
+</TABLE>
+--> 
+	<script type="text/javascript">
+
+        console.log({{ position }})
+
+        L.mapbox.accessToken = 'pk.eyJ1IjoibGVtYXgiLCJhIjoidnNDV1kzNCJ9.iH26jLhEuimYd6vLOO6v1g';
+        var map = L.mapbox.map('map', 'mapbox.outdoors', {
+            maxZoom: 20,
+            fullscreenControl: true,
+            zoomControl: false
+        })
+        var layers = {
+            "Basique": L.mapbox.tileLayer('mapbox.outdoors').addTo(map),
+            "Lumineuse": L.mapbox.tileLayer('mapbox.light'),
+            "Sombre": L.mapbox.tileLayer('mapbox.dark'),
+            "Comics": L.mapbox.tileLayer('mapbox.comic'),
+            "Crayon": L.mapbox.tileLayer('mapbox.pencil')
+        }
+        L.control.layers(
+            layers,
+            null,
+            {position: 'topleft'}
+        ).addTo(map);
+        map.setView({{[43.6042600, 1.4436700]}}, 13);
+
+        var marqueurs = L.layerGroup([]);
+
+        function rafraichir(){
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: "/admin/carte/rafraichir"
+            }).done(function(reponse) {
+                taxis = reponse.taxis;
+                // Retirer les anciens marqueurs
+                map.removeLayer(marqueurs);
+                points = [];
+                for (var i=0; i<taxis.length; i++) {
+                    taxi = taxis[i];
+                    point = L.marker(taxi.coordinates);
+                    points.push(point)
+                }
+                marqueurs = L.layerGroup(points).addTo(map);
+                map.addLayer(marqueurs);
+				
+				//div = document.getElementById('info')
+				//div.innerHTML = 'patate'
+            });
+        }
+
+        rafraichir();
+        window.setInterval(function(){
+            rafraichir();
+        }, 3000);
+
+    </script>
+
+{% endblock %}
+
+
+

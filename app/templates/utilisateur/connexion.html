@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+{% if request.MOBILE %}
+	<div class="ui center raised very padded text container pink segment">
+{% else %}
+	<div class="ui formulaire-utilisateur center raised very padded text container pink segment">
+{% endif %}
+		<form class="ui form" action="/utilisateur/connexion" method="post">
+			<h4 class="ui dividing header">Connexion</h4>
+			<div class="two fields">
+                <div class="sixteen wide field">
+                	<div class="ui left icon input">
+            			<i class="user icon"></i>
+			    		{{ m.render_field(form.email) }}
+			    	</div>
+	    		</div>
+	    	</div>			
+			<div class="two fields">
+                <div class="sixteen wide field">
+                	<div class="ui left icon input">
+	            		<i class="lock icon"></i>
+				    	{{ m.render_field(form.mdp) }}
+				    </div>
+	    		</div>
+	    	</div>
+		  	{{ form.csrf_token }}
+  			<button class="ui primary button" type="submit">
+  				Valider
+  			</button>
+  			<button class="ui basic red button" type="button" onclick="window.location.href='/utilisateur/oubli';">
+  				<i class="flag icon"></i>Mot de passe oublié
+  			</button>
+		</form>
+
+		<div class="ui message">
+      		Vous n'êtes pas inscrit ? <a href="{{ url_for('utilisateurbp.enregistrement') }}">Enregistrez-vous ici <i class="add user icon"></i></a>
+    	</div>
+	</div>
+
+{% endblock %}

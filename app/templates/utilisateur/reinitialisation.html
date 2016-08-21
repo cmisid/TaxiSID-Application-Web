@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+{% if request.MOBILE %}
+	<div class="ui center raised very padded text container pink segment">
+{% else %}
+	<div class="ui formulaire-utilisateur center raised very padded text container pink segment">
+{% endif %}
+		<form class="ui form" action="{{ url_for('utilisateurbp.reinitialisation', token=token) }}" method="POST">
+			<h4 class="ui dividing header">Choisissez un nouveau mot de passe</h4>
+			{{ m.render_field(form.mdp) }}
+	    	{{ m.render_field(form.confirmation) }}
+		  	{{ form.csrf_token }}
+		  	<button class="ui primary button" type="submit">Valider</button>
+		</form>
+	</div>
+
+{% endblock %}

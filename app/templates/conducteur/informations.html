@@ -1,0 +1,82 @@
+﻿{% extends "layout conducteur.html" %}
+
+
+{% block head %}
+    {{ super() }}
+    <!-- Leaflet JS -->
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+    <!-- Leaflet CSS -->
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'/>
+  <!-- Google polyline decoder -->
+    <script src="/static/js/map/Polyline.encoded.js"></script>
+    <!-- Map style -->
+    <style id="MAIN">
+    #global{
+      width:100%;
+    }
+    #tableau, #map {
+      display: inline-block;
+      vertical-align: top;
+    }
+    #tableau {
+      float: left;
+      width: 100%;
+      height: 100px;
+    }
+    #map {
+      width:100%;
+      height: 400px;
+    }
+    #footer{
+      
+      bottom:0;
+      left:0;
+      height:100px;
+    }
+    .centrage {
+      text-align: 
+      center;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}	
+  <!-- BARRE D'ONGLETS -->
+    <div id="tabs" class="four black-text yellow ui inverted black buttons">
+        <button class="ui inverted button" onclick="self.location.href='/conducteur/'+'{{ conducteur.telephone }}'"><i class="home icon"></i></button>
+        <button id="test1" class="ui inverted button" onclick="self.location.href='/conducteur/courses/'+'{{ conducteur.telephone }}'"><i class="taxi icon"></i></button>
+        <button class="ui inverted button" onclick="self.location.href='/conducteur/messages/'+'{{ conducteur.telephone }}'"><i class="mail icon"></i></button>
+        <button class="ui active inverted button" onclick="self.location.href='/conducteur/informations/'+'{{ conducteur.telephone }}'"><i class="info circle icon"></i></button>
+    </div>
+  
+  <div class="centrage">
+    <div style="line-height:3; font-size:3px;"><br></div> 
+    <img src="/static/img/taxisid.png" width="15%" height="15%" alt="TAXISID" style="vertical-align:middle" />
+    <br>
+    <b style="font:helvetica;font-size:10px;">Bonjour {{ conducteur.prenom }} {{ conducteur.nom }}</b>
+    <div style="line-height:3; font-size:3px;"><br></div>
+  </div>
+	
+	<input type="button" onclick="location.reload()" button class="ui red basic button" value="Actualiser"/> <br/><br/>
+	<center><table class="ui compact table"  border align="center" ></center>
+  <thead>
+    <tr align="center">
+      <th align="center" width="50%"> Stations </th>      
+	  <th align="center" width="50%"> Nombre de Conducteurs </th> 
+    </tr>
+  </thead>
+    
+  <center><tbody>
+		{% for i in range(0,lg) %}
+		<tr align="center">
+		
+		 <td class="selectable" align="right" width="50%">
+        <a href="http://localhost:5000/conducteur/infosDetaille/{{ conducteur.telephone }}">{{ statInf[i][0] }}</a>
+		<td class="selectable" align="center" width="50%">
+        <a href="http://localhost:5000/conducteur/infosDetaille/{{ conducteur.telephone }}">{{  stat_chaufInf[i][0] }}</a>
+		</tr>
+		{% endfor %}	
+  </tbody> </center>
+</table>
+
+{% endblock %}

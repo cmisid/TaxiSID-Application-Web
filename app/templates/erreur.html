@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="erreur-boite" align="center">
+        <img class="ui medium image erreur-image" src="{{ url_for('static', filename='img/erreur.png') }}">
+        <h1 class="ui header">{{ message }}<h1>
+    </div>
+
+{% endblock %}

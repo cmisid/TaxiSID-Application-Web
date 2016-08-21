@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+	<h1 class="ui header">{{ titre }}</h1>
+
+	<script language='javascript'>
+	     $(document).ready(function(){
+	        $('.ui.accordion').accordion();
+	     });
+	</script>
+
+	<div class="ui centered grid">
+		<div class="sixteen wide column">
+			<h2 class="ui header">Commandes API</h2>
+			<div class="ui styled accordion">
+			  	<div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données utilisateurs au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/utilisateurs'>localhost:5000/api/utilisateurs</a>
+			    	</p>
+			    </div>
+			    <div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données conducteurs au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/conducteurs'>localhost:5000/api/conducteurs</a>
+			    	</p>
+			    </div>
+			    <div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données adresses au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/adresses'>localhost:5000/api/adresses</a>
+			    	</p>
+			  </div>
+			  <div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données stations au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/stations'>localhost:5000/api/stations</a>
+			    	</p>
+			  </div>
+			  <div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données vehicules au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/vehicules'>localhost:5000/api/vehicules</a>
+			    	</p>
+			  </div>
+			  <div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données courses au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/courses'>localhost:5000/api/courses</a>
+			    	</p>
+			  </div>
+			  <div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données factures au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/factures'>localhost:5000/api/factures</a>
+			    	</p>
+			  </div>
+			  <div class="title">
+			    	<i class="dropdown icon"></i>
+			    	Données positions au format JSON			    
+			  	</div>
+			  	<div class="content">
+			    	<p class="transition hidden">
+						<a href='http://localhost:5000/api/positions'>localhost:5000/api/positions</a>
+			    	</p>
+			  </div>
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

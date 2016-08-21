@@ -1,0 +1,38 @@
+# Feuille de route pour l'année prochaine
+
+- Rendre le dépôt privé. Si GitHub ne nous en donne pas gratuitement, Max peut l'héberger sur son compte avec ses dépôts privés à lui.
+- Mettre en place la maintenance du projet, faire une présentation avec tous les élèves.
+- Documenter le projet avec [Sphinx](http://www.sphinx-doc.org/en/stable/), utiliser le style [ReadTheDocs](https://github.com/snide/sphinx_rtd_theme)
+- Coder un générateur de clé d'API.
+- Regrouper toute la documentation dans un seul wiki.
+- Faire un récapitulatif rédigé sur la méthodologie de travail lors des deux semaines pour les années suivantes.
+- Peaufiner le style du site web et de l'outil administrateur.
+- Automatiser les tests avec [Travis CI](https://travis-ci.org/).
+- Utiliser des websockets et non pas des requêtes HTTP pour l'affichage des informations sur les cartes.
+- Utiliser des caches pour les requêtes APIs.
+- Faire passer la facturation en classe pour améliorer le suivi dans l'application.
+- Faire passer les requêtes complexes SQL en requêtes SQLAlchemy.
+- Uniformiser le nom des variables dans l'application entière.
+- Automatiser le déploiement.
+- Poser des index sur les tables (notamment numero_IMEI de la table course).
+- Optimiser les calculs de l'API.
+- Gestion des bidons de course (course qui ont eu un chauffeur attribuer mais où le client ne s'est pas présenté)
+- Gestion des mineurs dans l'attribution de la course (véhicules acceptant les mineurs)
+- Liaison entre entree_station et fin_penalités à alimenter automatiquement
+- Amélioration des vues Flask_Admin (en HTML à travers du Python ?)
+- Communication Chauffeurs centrale : message non prédéfini à mettre en place
+- Amélioration générale du visuel de l'application
+- Création de l'association selon la documentation écrite pour cela
+- Page de stat à mettre en administration mais il y a des beugs, et mettre l'aide qui est dans admin, à part pour le moment
+- Attribution de la deuxième liste (une fois que tous les conducteurs dans la station ont refusés la course) 
+- Gérer les stations superposées
+- Gestion des numéros de téléphone (06 ou 336)
+- Gérer les entreprises avec =/= numéros de téléphone
+- Pour l'instant tous les gens vivant dans un rayon de 250m de la gare et de 1km de l'aéroport sont considérés ayant l'adresse de la gare et l'aéroport --> il faut affiner cette gestion d'@
+- Dans admin, dans la vue @ dans la partie création --> localisation automatique sur la carte
+- Gérer la 1ère pénalité, quand indisponible pdt 2min, ne pouvoir passer en libre que au bout de 2min
+- Statut de la proposition oui/non/nr, peut être envisager regrouper non et nr (non renseigné)
+- Dans l'attribution, il faudra gérer les différents moyens de paiments (especes, cheque, CB ou american express)
+- Gestion des priorités dans la table course
+- Afficher une fourchette de prix selon un intervalle de confiance à calculer (simuler des données réelles pour avoir une bonne précision et un intervalle cohérent)
+- Prendre en compte que les taxis peuvent communiquer avec le client une fois que la course a été attribuée

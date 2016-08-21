@@ -1,0 +1,34 @@
+[
+  {
+    "question": "J'ai commandé un taxi, je suis sorti à peine quelques minutes en retard, et le taxi était déjà reparti. Le chauffeur n'est-il pas censé attendre son client ? ",
+    "reponse": "OUI et NON. Lorsqu'un taxi est réservé sans voyageur à bord, la législation prévoit qu'il peut partir sans attendre dans le cas où le stationnement est impossible, ou si le voyageur n 'a pas payé au chauffeur la somme inscrite au compteur majorée d'une heure d'attente à titre d'arrhes. Par ailleurs, il arrive trop fréquemment que le client qui a retenu le taxi change d'avis sans avoir prévenu ou prenne le premier taxi rencontré dans la rue sans attendre celui qui lui a été attribué. C'est ce qui s'appelle une « non-charge ». C'est pourquoi nous vous conseillons d'être présent 5 minutes au plus tard après l'heure convenue. "
+  },
+  {
+    "question": "J'ai demandé au chauffeur d'emprunter un itinéraire particulier, et celui-ci m'a répondu « qu'il connaissait son métier ». Je suis client, je paie, n 'ai je pas le droit de choisir le chemin à emprunter ?",
+    "reponse": "Vous avez raison. Les chauffeurs de taxis sont tenus de conduire les voyageurs à destination par le chemin le plus direct, sauf si les voyageurs en indiquent un autre. Dans ce cas, le chauffeur doit se conformer au souhait du passager."
+  },
+  {
+    "question": "Quelle est la signification des lettres A, B, C, D lumineuses positionnées sur le toit des taxis ?",
+    "reponse": "Elles indiquent les différents tarifs applicables aux. taxis en fonction de l'heure. Ces lettres se retrouvent en haut à droite du compteur horokilométrique, ce qui permet de contrôler la validité des tarifs appliqués. Les tarifs en vigueur doivent de plus être affichés dans le véhicule à la vue de la clientèle."
+  },
+  {
+    "question": "Un chauffeur m'a facturé un supplément pour le transport de ma valise. Est-ce normal ?",
+    "reponse": "OUI s'il s'agit d'un bagage ne pouvant être placé à l'intérieur du véhicule. Le supplément s'établit alors à 0,83 € par bagage (tarifs au 14/01/2009)."
+  },
+  {
+    "question": "Pourquoi, quand je commande un taxi par l'intermédiaire d'un central radio, celui-ci arrive t-il toujours avec un montant, variable, au compteur ?",
+    "reponse": "C'est ce que l'on appelle le compteur d'approche. Lorsque vous appelez le standard, l'opératrice de CAPITOLE TAXI lance la recherche du taxi le plus proche de votre lieu de départ. Si aucun taxi n'est disponible dans le secteur, la recherche se poursuit dans un périmètre élargi, et ainsi de suite jusqu'à ce qu'un chauffeur accepte la course. Dès qu'il valide la course, le chauffeur enclenche son taximètre. C'est pourquoi le montant du compteur d'approche peut varier en fonction de l'éloignement du taxi par rapport à votre adresse d'appel."
+  },
+  {
+    "question": "Un chauffeur de taxi a refusé de nous prendre parce que nous étions 4. Est-ce légal ?",
+    "reponse": "NON. Il est interdit au conducteur de taxi de refuser de prendre en charge des passagers lorsque le nombre de voyageurs autorisés par la carte grise du véhicule le permet, sauf si les sièges correspondants ont été retirés du véhicule. Cependant, la prise en charge de plus de 3 passagers donne lieu à l'application d'un supplément de 1,59 € par personne adulte supplémentaire (tarifs au 14/01/2009)."
+  },
+  {
+    "question": "J'ai hélé un taxi dans la rue. Le compteur était déjà à 1,80 €. Est-ce normal ?",
+    "reponse": "OUI. Il s'agit du forfait de prise en charge. Dès que vous montez dans un taxi, le chauffeur actionne son taximètre pour signaler qu'il effectue une course. Dès cet instant, le montant réglementaire de 1,80 € s'affiche automatiquement au compteur (tarifs au 14/01/2009)."
+  },
+  {
+    "question": "Un chauffeur a-t-il le droit de refuser de servir une course après que je lui ai indiqué la destination, ou sous prétexte que la course était trop courte ?",
+    "reponse": "NON. Les chauffeurs de taxis ne sont pas autorisés à refuser des voyageurs, quelle que soit la destination demandée. Par ailleurs, sachez que le montant minimum d'une course de taxi est de 6,00 € (tarifs au 14/01/2009)."
+  }
+]

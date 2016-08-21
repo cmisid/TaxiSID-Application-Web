@@ -1,0 +1,11 @@
+{
+	"bagage": 0.95,
+	"personne_sup": 1.80,
+	"animal": 1.00,
+	"gare": 0.85,
+	"prise_en_charge": 1.90,
+	"aeroport": 2.25,
+	"tarif_minimum": 7.00,
+	"trajet_a_vide": 8.00,
+	"prix_trajet_ralenti": 30.90
+}

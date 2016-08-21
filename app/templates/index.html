@@ -1,0 +1,266 @@
+{% extends "layout.html" %} 
+{% block head %} 
+	{{ super() }} 
+
+{% if request.MOBILE %}
+{% else %}
+<script language='javascript'>
+ $(document).ready(function(){
+    $('.cookie.nag')
+      .nag({
+        key      : 'accepts-cookies',
+        value    : true
+      })
+    ;
+ });
+</script>
+{% endif %}
+
+<script type="text/javascript">
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+    }
+</script>
+
+<!-- Géolocalisation de l'addresse -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+
+<!-- Date -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.css"></link>
+<script type="text/javascript" src="//cdn.jsdelivr.net/datetimepicker/latest/DateTimePicker.min.js"></script>
+ 
+<!-- Division cookie -->
+<div class="ui inline cookie nag">
+  <span class="title">
+    En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de cookies.
+  </span>
+  <i class="close icon"></i>
+</div>
+
+{% endblock %} 
+
+{% block content %}
+
+<script type='text/javascript'>
+function initializeAdresseDep() {
+    var input = document.getElementById('adresse_dep');
+    var options = {
+        types: ['geocode'],
+        componentRestrictions: {country: 'fr'}
+    };
+    autocomplete = new google.maps.places.Autocomplete(input, options);
+}
+google.maps.event.addDomListener(window, 'load', initializeAdresseDep);
+function initializeAdresseArr() {
+    var input = document.getElementById('adresse_arr');
+    var options = {
+        types: ['geocode'],
+        componentRestrictions: {country: 'fr'}
+    };
+    autocomplete = new google.maps.places.Autocomplete(input, options);
+}
+google.maps.event.addDomListener(window, 'load', initializeAdresseArr);
+</script>
+
+<script type="text/javascript">
+    function AffichageAnimaux()
+     {
+        console.log(document.getElementById('nb_animaux').value)
+        if (document.getElementById('nb_animaux').value == 0) {
+            document.getElementById('animaux_grands1').style.visibility="hidden";
+        }
+        else {
+            document.getElementById('animaux_grands1').style.visibility="visible";
+        }
+    }
+</script>
+
+<script type='text/javascript'>
+ $(document).ready(function()
+ {
+    // Paramètres du DateTimePicker
+    $("#dtBox").DateTimePicker({
+        fullMonthNames : ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+        shortDayNames: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+        fullDayNames : ["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"],
+        shortMonthNames : ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Décembre"],
+        titleContentDateTime : "Choissisez la date et l'horaire de départ",
+        setButtonContent : "Appliquer",
+        clearButtonContent : "Effacer",
+        minuteInterval : 5,
+        buttonsToDisplay : ["HeaderCloseButton", "SetButton"],
+        dateTimeFormat : "dd-MM-yyyy HH:mm"
+    });
+ });
+</script>
+
+
+<h1 class="ui header">{{ titre }}</h1>
+{% if current_user.is_authenticated %}
+    <h2 class="ui header">Bonjour {{ current_user.prenom }} !</h2> 
+	<h3 class="ui header">Utilisateur connecté.</h3> 
+{% else %}
+	<h3 class="ui header">Utilisateur non-connecté.</h3> 
+{% endif %}
+
+
+{% if request.MOBILE %}
+<div class="ui center raised text container orange segment">
+{% else %}
+    <div class="ui two column centered grid">
+        <div class="left floated ten wide column">
+            <div class="ui contenu-centre center raised text container orange segment">
+{% endif %}
+            <form class="ui form" action="/index" method="POST">
+                {% if current_user.is_authenticated == false %}      
+                <h4 class="ui orange dividing header">Informations utilisateur</h4>  
+                <div class="three fields">
+                    <div class="four wide field">
+                    {{ m.render_field(form.civilite)}}
+                    </div>
+                    <div class="six wide field">
+                    {{ m.render_field(form.nom)}}
+                    </div>
+                    <div class="six wide field">
+                    {{ m.render_field(form.prenom)}}
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="ten wide field">
+                        <div class="ui left icon input">
+                            <i class="call icon"></i>
+                            {{ m.render_field(form.telephone)}}
+                        </div>
+                    </div>
+                    <div class="ten wide field">
+                        <div class="ui left icon input">
+                            <i class="mail outline icon"></i>
+                            {{ m.render_field(form.mail)}}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                    <h4 class="ui orange dividing header">Itinéraire</h4>
+                    <div class="field">
+                        <div class="two fields">
+                            <div class="fourteen wide field">
+                            {{ m.render_field(form.adresse_dep) }}
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class="field">
+                        <div class="two fields">
+                            <div class="fourteen wide field">
+                                {{ m.render_fielderrors_date(form.date_debut)}}
+                                <div id="dtBox"></div>
+                            </div> 
+                        </div> 
+                    </div>
+                    <div class="field">
+                        <div class="two fields">
+                            <div class="fourteen wide field">
+                            {{ m.render_field(form.adresse_arr) }}
+                            </div> 
+                        </div> 
+                    </div>
+                    <!-- <h4 class="ui orange dividing header">Informations complémentaires</h4> -->
+                    <a href="#" onclick="toggle_visibility('extracontent');"><i class="chevron circle right icon"></i> Informations complémentaires</a>
+                    <br><br>
+                    <div id="extracontent" style="display:none;">
+                        <div class="field">
+                            <label>Type de paiement</label>
+                            <div class="two fields">
+                                <div class="four wide field">
+                                    {{ m.render_field(form.paiement) }} 
+                                </div> 
+                            </div>  
+                            <label>Nombre de passagers</label>
+                            <div class="two fields">
+                                <div class="four wide field">
+                                    {{ m.render_field(form.nb_passagers) }} 
+                                </div> 
+                            </div> 
+                            <label>Commentaire</label>
+                            <div class="two fields">
+                                <div class="sixteen wide field">
+                                    {{ m.render_field(form.commentaire) }} 
+                                </div> 
+                            </div>           
+                        </div>
+                        <div class="two fields">
+                            <div class="four wide field">
+                                <label>Nombre de bagages</label>
+                                {{ m.render_field(form.nb_bagages) }} 
+                            </div> 
+                        </div> 
+                        <div class="two fields" >
+                            <div class="six wide field">
+                                <label>Nombre d'animaux de grande taille (ex: labrador) </label>
+                                {{ m.render_fieldcheckanimaux(form.nb_animaux) }} 
+                            </div> 
+                            <div class="ten wide field" id = "animaux_grands1" style="visibility:hidden;">
+                                <label>Pensez vous que le transport de vos animaux nécessite un véhicule de grande taille (type Break) ? </label>
+                                {{ m.render_field(form.animaux_grands) }} 
+                            </div> 
+                        </div>
+                        <div class="four wide field">
+                                <label>Souhaitez-vous que le chauffeur parle anglais ?</label>
+                                {{ m.render_field(form.langue) }} 
+                        </div> 
+                    </div>
+                    {{ form.csrf_token }}
+
+                    <br><button class="fluid ui inverted blue button" type="submit"><i class="check circle icon"></i>Établir un devis prévisionnel</button>
+                </form>
+
+            </div>
+        {% if request.MOBILE %}
+        {% else %}
+        </div>
+        {% endif %}
+
+        {% if request.MOBILE %}
+        {% else %}
+        <div class="right floated six wide column">
+            <div class="ui card">
+              <div class="image">
+                <img src="{{ url_for('static', filename='img/taxisid.png') }}">
+              </div>
+              <div class="content">
+                <div class="header">TaxiSID</div>
+                <div class="meta">
+                  <h5 class="ui orange header">LE PLUS GRAND GROUPE DE TOULOUSE ET DES MIDI-PYRÉNÉES</h5>
+                </div>
+                <div class="description">
+                  <i class="large phone square icon"></i>05 34 250 250 <br><br>
+                <button class="ui circular world icon button" onclick="window.location.href='http://cmisid.github.io/'">
+                    <i class="world icon"></i>
+                </button>
+                <button class="ui circular facebook icon button" onclick="window.location.href='https://www.facebook.com/taxisidtoulouse/?fref=ts'">
+                    <i class="facebook icon"></i>
+                </button>
+                <button class="ui circular twitter icon button" onclick="window.location.href='https://twitter.com/TaxiSID?lang=fr'">
+                    <i class="twitter icon"></i>
+                </button>
+                </div>
+              </div>
+              <div class="extra content">
+                <span>
+                  <i class="orange taxi icon"></i>
+                  170 taxis
+                </span>
+              </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+
+
+
+
+{% endblock %}

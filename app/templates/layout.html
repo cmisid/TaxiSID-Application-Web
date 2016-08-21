@@ -1,0 +1,121 @@
+{% import "macros.html" as m %}
+<!DOCTYPE html>
+<html lang="en">
+	<div id="container">
+   		<div id="header">
+   			{% block head %}
+				<meta name='viewport' content="width=device-width, initial-scale=1">
+    			<meta name="mobile-web-app-capable" content="yes">
+				<meta charset="UTF-8">
+				<link rel="shortcut icon" href="/static/img/favicon.ico">
+				{% include "static.html" %}
+				<!-- Titre de l'onglet de navigation -->
+				<title>{{ titre }}</title>
+				<!-- Barre de navigation -->
+				<div class="ui grid">
+					<div class="computer tablet only row">
+						<div class="ui attached inverted grey menu navbar page grid">
+						  	{{ m.nav_link('index', 'Réserver un taxi') }}
+						  	{{ m.nav_link('carte', 'Carte') }}
+							{{ m.nav_link('informations', 'Informations') }}
+							{{ m.nav_link('tarifs', 'Tarifs') }}
+							{{ m.nav_link('faq', 'FAQ') }}
+							{{ m.nav_link('contact', 'Contact') }}
+						 	<div class="right menu">
+						 		<!-- Téléphone de la société de taxis -->
+						 		<div class="item">
+					      			<i class="large phone orange square icon"></i>05 34 250 250
+					      		</div>
+						 		<!-- Utilisateur connecté -->
+						      	{% if current_user.is_authenticated %}
+						      		<div class="item">
+						        		<a class="ui primary button" href="/utilisateur/compte"><i class="settings icon"></i>{{ current_user.prenom }} {{ current_user.nom }}</a>
+						    		</div>
+						    		<div class="item">
+						        		<a class="ui default button" href="/utilisateur/deconnexion"><i class="sign out icon"></i>Se déconnecter</a>
+						    		</div>
+					          	<!-- Utilisateur non-connecté -->
+					          	{% else %}
+					          		<div class="item">
+						        		<a class="ui primary button" href="/utilisateur/connexion"><i class="sign in icon"></i>Se connecter</a>
+						    		</div>
+						    		<div class="item">
+						        		<a class="ui default button" href="/utilisateur/enregistrement"><i class="add user icon"></i>S'enregistrer</a>
+						    		</div>
+								{% endif %}
+					  		</div>
+					  	</div>
+					</div>
+					<div class="mobile only row">
+						<div class="ui fixed inverted grey menu navbar page grid">
+						    <div class="right menu open">
+						    	<a href="" class="item">
+							        <i class="white list layout icon"></i>
+						    	</a>
+						    </div>
+						</div>
+						<div class="ui inverted grey vertical navbar menu">
+							{{ m.nav_link_mobile('index', 'Réserver un taxi') }}
+						  	{{ m.nav_link_mobile('carte', 'Carte') }}
+							{{ m.nav_link_mobile('informations', 'Informations') }}
+							{{ m.nav_link_mobile('tarifs', 'Tarifs') }}
+							{{ m.nav_link_mobile('faq', 'FAQ') }}
+							{{ m.nav_link_mobile('contact', 'Contact') }}
+							{% if current_user.is_authenticated %}
+					      		<div class="item">
+					        		<a class="ui primary button" href="/utilisateur/compte"><i class="settings icon"></i>{{ current_user.prenom }} {{ current_user.nom }}</a>
+					    		</div>
+					    		<div class="item">
+					        		<a class="ui default button" href="/utilisateur/deconnexion"><i class="sign out icon"></i>Se déconnecter</a>
+					    		</div>
+				          	<!-- Utilisateur non-connecté -->
+				          	{% else %}
+				          		<div class="item">
+					        		<a class="ui primary button" href="/utilisateur/connexion"><i class="sign in icon"></i>Se connecter</a>
+					    		</div>
+					    		<div class="item">
+					        		<a class="ui default button" href="/utilisateur/enregistrement"><i class="add user icon"></i>S'enregistrer</a>
+					    		</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			{% endblock %}
+   		<!-- Message flashing -->
+		{% with messages = get_flashed_messages(with_categories=true) %}
+		  	{% if messages %}
+		    	<ul>
+		    		{% for categorie, message in messages %}
+		      			<li class="ui {{ categorie }} message flash">{{ message }}</li>
+		    		{% endfor %}
+		    	</ul>
+		  	{% endif %}
+		{% endwith %}
+   		<div id="body" class="body">
+   			{% block content %}{% endblock %}
+   		</div>
+		<div id="footer">
+			<div class="ui divider"></div>
+	    		<div class="ui divided horizontal footer link list">
+			      	<div class="item">
+			        	TaxiSID
+			      	</div>
+			      	<div class="item">
+			        	<a href="https://github.com/TaxiSID/"><i class="github icon"></i></a>
+			      	</div>
+	    		</div>
+	  		</div>
+		</div>
+	</div>
+</html>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+	$('.right.menu.open').on("click",function(e){
+        e.preventDefault();
+		$('.ui.vertical.menu').toggle();
+	});
+    
+	$('.ui.dropdown').dropdown();
+});
+</script>

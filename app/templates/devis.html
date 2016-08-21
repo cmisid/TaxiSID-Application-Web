@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+	<h1 class = "ui header">{{ titre }}</h1>
+
+	{% if current_user.is_authenticated %}
+	  	<h2 class = "ui header">Bonjour {{ current_user.prenom }}!</h2>
+	{% endif %}
+
+		{% if request.MOBILE %}
+		<div class="ui center raised text container orange segment">
+		{% else %}
+		<div class="ui contenu-centre center raised text container orange segment">
+		{% endif %}
+			<h2 class="ui center aligned icon header">
+  				<i class="tiny calculator icon"></i> Devis prévisionnel
+			</h2>
+			<div class="ui segments">
+				<!-- Tarifs -->
+				<div class="ui blue segment">
+					{{ m.segment_devis_prix("Prix total de la course", data.devis.prix.total, "help circle icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prise en charge", data.devis.detail.prise_en_charge) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis("Kilomètres estimés", data.devis.detail.parcours.distance) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par kilomètre", data.devis.detail.parcours.prix_par_km) }}
+					</div>
+				
+				<!-- Suppléments -->
+				{% if data.devis.detail.gare.prise_en_charge == True %}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prise en charge à la gare SNCF Matabiau", data.devis.detail.gare.prix) }}
+					</div>
+				{% endif %}
+				{% if data.devis.detail.aeroport.prise_en_charge == True %}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prise en charge à l'aéroport de Blagnac", data.devis.detail.aeroport.prix) }}
+					</div>
+				{% endif %}
+
+				</div>
+
+				<!-- Bagages -->
+				<div class="ui segment">
+				{{ m.segment_devis_prix("Bagages", data.devis.detail.bagages.total, "suitcase icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres de bagages", data.devis.detail.bagages.nb) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par bagage", data.devis.detail.bagages.prix) }}
+					</div>
+				</div>
+
+				<!-- Animaux -->
+				<div class="ui segment">
+				{{ m.segment_devis_prix("Animaux", data.devis.detail.animaux.total, "paw icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres d'animaux", data.devis.detail.animaux.nb) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par animal", data.devis.detail.animaux.prix) }}
+					</div>
+				</div>
+				
+				<!-- Supplément -->
+				<div class="ui segment">
+				{{ m.segment_devis("Personnes supplémentaires", data.devis.detail.personnes.supplementaires.total, "plus icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres de passagers supplémentaires", data.devis.detail.personnes.supplementaires.nb) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par passager supplémentaire", data.devis.detail.personnes.supplementaires.prix) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres de passagers au total", data.devis.detail.personnes.nb) }}
+					</div>
+				</div>
+				<div class="ui segment">
+				{{ m.segment_devis("Estimations complémentaires", "", "plus icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Trajet du chauffeur de taxi à vide", data.devis.detail.trajet_a_vide) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Trajet ralenti", data.devis.detail.tarif_trajet_ralenti) }}
+					</div>
+				</div>
+			</div>
+
+			<br>
+
+			<div class="ui buttons">
+				<button class="ui button" onClick="devis_refuser();">Décliner</button>
+				<div class="or" data-text="ou"></div>
+				<button class="ui positive button" onClick="devis_accepter();">Accepter</button>
+			</div>
+
+			</br></br>
+			<button class="fluid ui inverted orange button active"><i class="download icon"></i> Télécharger la facture</button>
+		</div>
+
+	<script type="text/javascript">
+
+	function devis_accepter(){
+
+		var dict = "{{ data }}";
+		console.log(dict)
+
+		$.ajax({
+			url: "/accepter",
+			type: "POST",
+			async: true,
+			contentType: "application/json; charset=utf-8",
+			data: JSON.stringify(dict),
+			success: function(data) {
+                 statut = data.statut
+                 if (statut == 'succes') {	
+                 	window.location.href='/';
+                 }
+            }
+		});
+	}
+
+	function devis_refuser(){
+		window.location.href='/';
+	}
+
+
+	</script>
+
+{% endblock %}

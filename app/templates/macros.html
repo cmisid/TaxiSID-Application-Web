@@ -1,0 +1,119 @@
+{# myapp/templates/macros.html #}
+
+<!-- Mettre en valeur l'onglet courant -->
+{% macro nav_link(endpoint, text) %}
+	{% if request.endpoint is not none %}
+		{% if request.endpoint.endswith(endpoint) %}
+		    <a class="active orange item" href="{{ url_for(endpoint) }}">{{ text }}</a>
+		{% else %}
+		    <a class="item" href="{{ url_for(endpoint) }}">{{ text }}</a>
+		{% endif %}
+	{% else %}
+    	<a class="item" href="{{ url_for(endpoint) }}">{{ text }}</a>
+	{% endif %}
+{% endmacro %}
+
+<!-- Caractère de navigation en gras pour la navigation mobile -->
+{% macro nav_link_mobile(endpoint, text) %}
+	{% if request.endpoint is not none %}
+		{% if request.endpoint.endswith(endpoint) %}
+		    <a class="active orange item" href="{{ url_for(endpoint) }}">{{ text | upper }}</a>
+		{% else %}
+		    <a class="item" href="{{ url_for(endpoint) }}">{{ text | upper }}</a>
+		{% endif %}
+	{% else %}
+    	<a class="item" href="{{ url_for(endpoint) }}">{{ text | upper }}</a>
+	{% endif %}
+{% endmacro %}
+
+<!-- Générer un form avec WTForms (et ses erreurs) -->
+{% macro render_field(field) %}
+	{{ field(name_=field.name, id=field.name, placeholder=field.description, class_="input") }}
+  	{% if field.errors %}
+    	<ul>
+	    	{% for error in field.errors %}
+	      		<li class="formulaire-erreur">{{ error }}</li>
+	    	{% endfor %}
+    	</ul>
+  	{% endif %}
+{% endmacro %}
+
+<!-- Input text prérempli -->
+{% macro pre_render_field(field, value) %}
+	{{ field(name_=field.name, id=field.name, placeholder=field.description, class_="input", value=value) }}
+  	{% if field.errors %}
+    	<ul>
+	    	{% for error in field.errors %}
+	      		<li class="formulaire-erreur">{{ error }}</li>
+	    	{% endfor %}
+    	</ul>
+  	{% endif %}
+{% endmacro %}
+
+<!-- Macro générant une liste déroulante pour les animaux -->
+{% macro render_fieldcheckanimaux(field) %}
+	{{ field(name_=field.name, id=field.name, placeholder=field.description, class_="input", onclick = "AffichageAnimaux()" ) }}
+  	{% if field.errors %}
+    	<ul>
+	    	{% for error in field.errors %}
+	      		<li class="formulaire-erreur">{{ error }}</li>
+	    	{% endfor %}
+    	</ul>
+  	{% endif %}
+{% endmacro %}
+
+<!-- Macro permettant d'afficher une ligne de prix dans le devis -->
+{% macro segment_devis_prix(texte, valeur, icon) %}
+
+<div class="ui right aligned grid">
+	<div class="left floated left aligned ten wide column">
+		<div class="content">
+			<div class="sub header">
+  				<i class="large blue {{ icon }}"></i> {{ texte }}
+  			</div>
+		</div>
+	</div>
+	<div class="right floated right aligned four wide column">
+		<div class="content">
+			<div class="sub header">
+  				{{ valeur }} €
+  			</div>
+		</div>
+	</div>
+</div>
+
+{% endmacro %}
+
+<!-- Macro permettant d'afficher une ligne dans le devis -->
+{% macro segment_devis(texte, valeur, icon) %}
+
+<div class="ui right aligned grid">
+	<div class="left floated left aligned ten wide column">
+		<div class="content">
+			<div class="sub header">
+  				<i class="large blue {{ icon }}"></i> {{ texte }}
+  			</div>
+		</div>
+	</div>
+	<div class="right floated right aligned four wide column">
+		<div class="content">
+			<div class="sub header">
+  				{{ valeur }} 
+  			</div>
+		</div>
+	</div>
+</div>
+
+{% endmacro %}
+
+<!-- Macro permettant de générer un input pour choisir une datetime avec affichage d'erreurs -->
+{% macro render_fielderrors_date(field) %}
+	<input type="text" id="datepicker" data-field="datetime" name="date_debut" placeholder="Départ le" autocomplete="off">
+  	{% if field.errors %}
+    	<ul>
+	    	{% for error in field.errors %}
+	      		<li class="formulaire-erreur">{{ error }}</li>
+	    	{% endfor %}
+    	</ul>
+  	{% endif %}
+{% endmacro %}

@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+	<h1 class="ui header">{{ titre }}</h1>
+
+	{% if current_user.is_authenticated %}
+	  	<h2 class="ui header">Bonjour {{ current_user.prenom }}!</h2>
+	{% endif %}
+
+	<script language='javascript'>
+             $(document).ready(function(){
+                $('.ui.accordion').accordion();
+             });
+	</script>
+
+
+	<div class="ui centered grid">
+	    <div class="ism-slider" data-transition_type="instant" data-interval="3000" id="slider-taxi-sid">
+	      <ol>
+	        <li>
+	          <img src="{{ url_for('static', filename='img/slides/img4.jpg') }}">
+	        </li>
+	        <li>
+	          <img src="{{ url_for('static', filename='img/slides/img1.jpg') }}">
+	        </li>
+	        <li>
+	          <img src="{{ url_for('static', filename='img/slides/img2.jpg') }}">
+	        </li>
+	        <li>
+	          <img src="{{ url_for('static', filename='img/slides/img3.jpg') }}">
+	        </li>
+	      </ol>
+	    </div>
+	</div>
+
+	<div class="ui centered grid">
+		<div class="sixteen wide column">
+			<h2 class="ui header">Questions fréquemment posées</h2>
+			<div class="ui styled accordion">
+			{% for line in faq_data %}
+			  <div class="title">
+			    <i class="dropdown icon"></i>
+			    {{ line.question }}
+			  </div>
+			  <div class="content">
+			    <p class="transition hidden">{{ line.reponse }}</p>
+			  </div>
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'admin/master.html' %}
+
+{% block head_css %}
+    {{ super() }}
+{% endblock %}
+
+{% block body %}
+
+<!--Affichage du titre en gras et centré-->
+<h1><b><center>Bienvenue dans la page administrateur</center></b></h1><br>
+
+<!--Détails de chaques vues-->
+
+<div align="justified">
+
+<!--Vue course-->
+<h3><b>Vue course<br></b></h3>
+<ul><li>Course Informations<br></li></ul>
+Informations essentielles liées à chaque course réalisée par un conducteur et pour un utilisateur.<br>
+Possibilité de créer, éditer et supprimer des courses ainsi que de faire une recherche.<br>
+<ul><br><li>Course Compléments</li></ul>
+Informations complémentaires liées à chaque course.<br>
+Possibilité de créer, éditer et supprimer des courses ainsi que de faire une recherche.<br>
+
+<!--Vue utilisateur-->
+<h3><b>Vue utilisateur<br></b></h3>
+<ul><li>Utilisateur contact<br></li></ul>
+Informations essentielles liées au contact de chaque utilisateur.<br>
+Possibilité de créer, éditer et supprimer des utilisateurs ainsi que de faire une recherche.<br>
+<ul><br><li>Utilisateur compte<br></li></ul>
+Informations liées au compte de l'utilisateur.<br>
+Possibilité de créer, éditer et supprimer des utilisateurs ainsi que de faire une recherche et d'appliquer un filtre.<br>
+
+<!--Vue conducteur-->
+<h3><b>Vue conducteur<br></b></h3>
+<ul><li>Conducteur contact<br></li></ul>
+Informations essentielles liées au contact de chaque conducteur.<br>
+Possibilité de créer, éditer et supprimer des utilisateurs ainsi que de faire une recherche.<br>
+<ul><br><li>Conducteur situation<br></li></ul>
+Informations liées au compte du conducteur ainsi que sa position cartographiée.<br>
+Possibilité de créer, éditer et supprimer des conducteurs ainsi que de faire une recherche et d'appliquer un filtre.<br>
+<ul><br><li>Conducteur pénalité<br></li></ul>
+Informations liées aux possibles pénalités des conducteurs ainsi que sa position cartographiée.<br>
+Possibilité de créer, éditer et supprimer des pénalités ainsi que de faire une recherche.<br>
+
+<!--Vue entreprise-->
+<h3><b>Vue entreprise<br></b></h3>
+<ul><li>Entreprise contact<br></li></ul>
+Informations essentielles liées au contact de chaque entreprise.<br>
+Possibilité de créer, éditer et supprimer des entreprises ainsi que de faire une recherche.<br>
+<ul><br><li>Entreprise forfait<br></li></ul>
+Informations liées aux différents forfaits telles que leurs adresses et leur tarif pour chaque entreprise.<br>
+Possibilité de créer, éditer et supprimer des forfaits ainsi que de faire une recherche.<br>
+
+<!--Vue véhicule-->
+<h3><b>Vue véhicule<br></b></h3>
+<ul><li>Type de véhicule<br></li></ul>
+Informations essentielles liées aux véhicules.<br>
+Possibilité de créer, éditer et supprimer des utilisateurs ainsi que de faire une recherche et d'appliquer un filtre.<br>
+<ul><br><li>Client admis<br></li></ul>
+Informations liées à l'admissibilité des clients tels que les VIP ou les mineurs par exemple par le conducteur.<br>
+Possibilité de créer, éditer et supprimer des conducteurs ainsi que de faire une recherche.<br>
+<ul><br><li>Modes de paiement<br></li></ul>
+Informations liées au mode de paiement accepté par le véhicule.<br>
+Possibilité de créer, éditer et supprimer des pénalités ainsi que de faire une recherche.<br>
+
+<!--Vue station-->
+<h3><b>Vue station<br></b></h3>
+Informations, pour chaque station, de sa distance d'entrée et de sortie.<br>
+Possibilité de créer, éditer et supprimer des stations ainsi que de faire une recherche.<br>
+
+<!--Vue paiement-->
+<h3><b>Vue paiement<br></b></h3>
+Informations liées au montant et au montant majoré avec le mois et l'année concernés.<br>
+Possibilité de créer, éditer et supprimer des factures ainsi que de faire une recherche.<br>
+
+<!--Vue adresse-->
+<h3><b>Vue adresse<br></b></h3>
+Informations liées aux adresse de façon compacte et découpée ainsi que sa position cartographiée.<br>
+Possibilité de créer, éditer et supprimer des adresses ainsi que de faire une recherche.<br>
+
+<!--Vue -->
+<h3><b>Vue statistiques<br></b></h3>
+Application permettant de réaliser des statistiques via la base de données.<br>
+
+<!--Vue carte-->
+<h3><b>Vue carte<br></b></h3>
+Indication de la position de chaque conducteurs.<br>
+Possibilité de zoom.<br>
+
+</div><br><br><br>
+
+<center><img class = 'taxisid' src = "{{ url_for('static', filename='img/taxisid.jpg') }}" width = '20%'></center>
+
+{% endblock %}

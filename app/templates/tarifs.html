@@ -1,0 +1,275 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+	<h1 class="ui header">{{ titre }}</h1>
+
+	{% if current_user.is_authenticated %}
+	  	<h2 class="ui header">Bonjour {{ current_user.prenom }}!</h2>
+	{% endif %}
+
+    <script type='text/javascript'>
+		$( document ).ready(function() {
+			$('.tabular.menu .item').tab();
+		});
+    </script>
+
+	<div class="ui centered grid">
+		<div class="sixteen wide column">
+			<h2 class="ui header">Tarifs</h2>
+				<div class="ui top attached tabular menu">
+				  <a class="item active" data-tab="first">Particuliers</a>
+				  <a class="item" data-tab="second">Professionnels</a>
+				</div>
+				<div class="ui bottom attached tab segment active" data-tab="first">
+					<h3 class="ui orange dividing header">TARIFS CAPITOLE TAXI</h2>
+					<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS A - APPLICABLE DE 8h à 19h - Lumière blanche</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De jour lorsque le client garde le taxi pour le retour.
+						S’applique également lorsque le client demande le taxi par téléphone, du lieu
+						de réception de l’appel jusqu’au lieu de prise en charge du client.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    0.81 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS B - APPLICABLE DE 19h à 8h - Lumière orange</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De nuit lorsque le client garde le taxi pour le retour ainsi que les dimanches, jours fériés, les jours de neige et de verglas avec utilisation d’équipements spéciaux. S’applique également lorsque le client demande le taxi par téléphone du lieu de réception de l’appel jusqu’au lieu de prise en charge du client.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    1.13 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS C - APPLICABLE DE 8h à 19h - Lumière bleue</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De jour lorsque le client ne garde pas le taxi pour le retour.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    1.62 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS D - APPLICABLE DE 19h à 8h - Lumière verte</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De nuit lorsque le client ne garde pas le taxi pour le retour , les dimanches et jours fériés. Les jours de neige et de verglas avec utilisation d’équipements spéciaux.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    2.24 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+
+					<table class="ui compact table">
+					  <thead><tr>
+					    <th>Motif</th>
+					    <th>Supplément</th>
+					  </tr></thead>
+					  <tbody>
+					    <tr>
+					      <td>Course minimum</td>
+					      <td>7.00 €</td>
+					    </tr>
+					    <tr>
+					      <td>Prise en charge</td>
+					      <td>1.90 €</td>
+					    </tr>
+					    <tr>
+					      <td>Heure d’attente ou de marche lente</td>
+					      <td>30.90 €</td>
+					    </tr>
+					    <tr>
+					      <td>Bagages ne pouvant être placés à l’intérieur de la voiture</td>
+					      <td>0.95 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément de prise en charge à la gare Matabiau</td>
+					      <td>0.85 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément de prise en charge à l’aéroport de Blagnac <br>(pour les taxis assurant exclusivement le service de l’aéroport)</td>
+					      <td>2.25 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément à partir de la 4ème personne adulte/par personne</td>
+					      <td>1.80 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément pour le transport d’animaux</td>
+					      <td>1.00 €</td>
+					    </tr>
+					  </tbody>
+					</table>
+					<a class="item" href="http://www.capitole-taxi.com/core/modules/download/download.php?documents_id=8">
+				    <button class="fluid ui inverted orange button active"><i class="download icon"></i> Télécharger la brochure tarifaire</button>
+				    </a>
+				</div>
+
+				<div class="ui bottom attached tab segment" data-tab="second">
+					<h3 class="ui orange dividing header">TARIFS CAPITOLE TAXI</h2>
+				  	<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS A - APPLICABLE DE 8h à 19h - Lumière blanche</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De jour lorsque le client garde le taxi pour le retour.
+						S’applique également lorsque le client demande le taxi par téléphone, du lieu
+						de réception de l’appel jusqu’au lieu de prise en charge du client.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    0.81 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS B - APPLICABLE DE 19h à 8h - Lumière orange</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De nuit lorsque le client garde le taxi pour le retour ainsi que les dimanches, jours fériés, les jours de neige et de verglas avec utilisation d’équipements spéciaux. S’applique également lorsque le client demande le taxi par téléphone du lieu de réception de l’appel jusqu’au lieu de prise en charge du client.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    1.13 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS C - APPLICABLE DE 8h à 19h - Lumière bleue</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De jour lorsque le client ne garde pas le taxi pour le retour.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    1.62 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="ui inverted segment">
+						<h4 class="ui grey inverted header">TARIFS D - APPLICABLE DE 19h à 8h - Lumière verte</h4>
+					</div>
+					<div class="ui two column centered grid">
+						<div class="left floated left aligned twelve wide column">
+					  	De nuit lorsque le client ne garde pas le taxi pour le retour , les dimanches et jours fériés. Les jours de neige et de verglas avec utilisation d’équipements spéciaux.
+						</div>
+						<div class="right floated right aligned four wide column">
+							<div class="ui mini statistic">
+							  <div class="value">
+							    2.24 € 
+							  </div>
+							  <div class="label">
+							    le km
+							  </div>
+							</div>
+						</div>
+					</div>
+
+					<table class="ui compact table">
+					  <thead><tr>
+					    <th>Motif</th>
+					    <th>Supplément</th>
+					  </tr></thead>
+					  <tbody>
+					    <tr>
+					      <td>Course minimum</td>
+					      <td>6.86 €</td>
+					    </tr>
+					    <tr>
+					      <td>Prise en charge</td>
+					      <td>1.90 €</td>
+					    </tr>
+					    <tr>
+					      <td>Heure d’attente ou de marche lente</td>
+					      <td>30.50 €</td>
+					    </tr>
+					    <tr>
+					      <td>Bagages ne pouvant être placés à l’intérieur de la voiture</td>
+					      <td>0.95 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément de prise en charge à la gare Matabiau</td>
+					      <td>0.85 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément de prise en charge à l’aéroport de Blagnac <br>(pour les taxis assurant exclusivement le service de l’aéroport)</td>
+					      <td>2.25 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément à partir de la 4ème personne adulte/par personne</td>
+					      <td>1.80 €</td>
+					    </tr>
+					    <tr>
+					      <td>Supplément pour le transport d’animaux</td>
+					      <td>1.00 €</td>
+					    </tr>
+					  </tbody>
+					</table>
+					<a class="item" href="http://www.capitole-taxi.com/core/modules/download/download.php?documents_id=9">
+				    <button class="fluid ui inverted orange button active"><i class="download icon"></i> Télécharger la brochure tarifaire</button>
+				    </a>
+				</div>
+		</div>
+	</div>
+
+
+{% endblock %}

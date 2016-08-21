@@ -1,0 +1,728 @@
+{% extends "layout conducteur.html" %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Leaflet JS -->
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+    <!-- Leaflet CSS -->
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'/>
+	<!-- Google polyline decoder -->
+    <script src="/static/js/map/Polyline.encoded.js"></script>
+    <!-- Map style -->
+    <style id="MAIN">
+		#global{
+			width:100%;
+		}
+		#tableau, #map {
+			display: inline-block;
+			vertical-align: top;
+		}
+		#tableau {
+			float: left;
+			width: 100%;
+			height: 100px;
+		}
+		#map {
+			width:100%;
+			height: 400px;
+		}
+		#footer{
+			
+			bottom:0;
+			left:0;
+			height:100px;
+		}
+		.centrage {
+			text-align: 
+			center;
+		}
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- BARRE D'ONGLETS -->
+    <div id="tabs" class="four black-text yellow ui inverted black buttons">
+        <button class="ui active inverted button" onclick="self.location.href='/conducteur/'+'{{ conducteur.telephone }}'"><i class="home icon"></i></button>
+        <button id="test1" class="ui inverted button" onclick="self.location.href='/conducteur/courses/'+'{{ conducteur.telephone }}'"><i class="taxi icon"></i></button>
+        <button class="ui inverted button" onclick="self.location.href='/conducteur/messages/'+'{{ conducteur.telephone }}'"><i class="mail icon"></i></button>
+        <button class="ui inverted button" onclick="self.location.href='/conducteur/informations/'+'{{ conducteur.telephone }}'"><i class="info circle icon"></i></button>
+    </div>
+	
+	<div class="centrage">
+		<div style="line-height:3; font-size:3px;"><br></div>	
+		<img src="/static/img/taxisid.png" width="15%" height="15%" alt="TAXISID" style="vertical-align:middle" />
+		<br>
+		<b style="font:helvetica;font-size:10px;">Bonjour {{ conducteur.prenom }} {{ conducteur.nom }}</b>
+		<div style="line-height:3; font-size:3px;"><br></div>
+	</div>
+    <!-- Bouton qui affiche le statut actuel du conducteur -->
+    {% if conducteur.statut == "Charge" %}
+        <button id="statut" class="fluid ui red button">{{ conducteur.statut }}</button>
+    {% endif %}
+    <!-- <a class="item" id="changementStatut" > -->
+    {% if conducteur.statut == "Libre" %}
+        <button id="statut" class="fluid ui green button" onclick="Indisponible()">{{ conducteur.statut}}</button>
+    {% endif %}
+    {% if conducteur.statut == "Indisponible" %}
+        <button id="statut" class="fluid ui orange button" onclick="Libre()">{{ conducteur.statut }}</button>
+    {% endif %}          
+    <!-- </a> -->
+	
+ 
+    <!-- Contenu de la fenêtre qui s'affiche contenant les statuts à sélectionner -->
+    <div id="modaldiv"  class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            <center>
+                Modification du statut
+            </center>
+        </div>
+        <div class="center">
+            <div class="actions">
+                <center>
+                    {% if conducteur.statut == "Libre" %}
+<!--                         <button class="ui blue button" onclick="conducteur_maj_statut('En pause');location.reload();location.reload();"><p style="text-transform:uppercase;">En pause</p></button>
+ -->                        <button class="ui orange button" onclick="conducteur_maj_statut('Indisponible');location.reload();location.reload();"><p style="text-transform:uppercase;">Indisponible</p></button>
+                    {% endif %}
+                    <!-- {% if conducteur.statut == "En pause" %}
+                        <button class="ui green button" onclick="conducteur_maj_statut('Libre');location.reload();location.reload();"><p style="text-transform:uppercase;">Libre</p></button>
+                        <button class="ui orange button" onclick="conducteur_maj_statut('Indisponible');location.reload();location.reload();"><p style="text-transform:uppercase;">Indisponible</p></button>
+                    {% endif %} -->
+                    {% if conducteur.statut == "Indisponible" %}
+                        <button class="ui green button" onclick="conducteur_maj_statut('Libre');location.reload();location.reload();"><p style="text-transform:uppercase;">Libre</p></button>
+<!--                         <button class="ui blue button" onclick="conducteur_maj_statut('En pause');location.reload();location.reload();"><p style="text-transform:uppercase;">En pause</p></button> -->                    {% endif %}
+                </center>
+            </div>
+        </div>
+    </div>
+
+	<!-- ONGLETS DE LA NAVIGATION GPS -->
+    <div class="ui four item menu">
+		<a id="infos" class="yellow item" data-tab="infoscourse"><i class="info circle icon"></i>Infos</a>
+		<a id="carte" class="active yellow item" data-tab="carte"><i class="location arrow icon"></i>Carte</a>
+		<a class="yellow item" data-tab="client"><i class="marker icon"></i>Client</a>
+		<a class="yellow item" data-tab="course"><i class="taxi icon"></i>Dest</a>
+    </div>
+	
+	<!-- CONTENU DE L'ONGLET INFOS COURSE -->
+     <div class="ui tab" data-tab="infoscourse">
+	  	<span id="prop"><h4><center>Vous avez aucune nouvelle proposition de course</center></h4></span>
+			<div id="div1" class="ui two item menu " style="display : none">
+				<input type="button" id="acp1" onclick="course_rep('oui');" class="fluid ui blue button" style="display : none" value=" Accepter">
+		        <input type="button" id="rfs1" onclick="course_rep('non');" class="fluid ui red button" style="display : none" value=" Refuser">
+			</div>
+  		
+		
+			<div class="centre">
+		<table id="tab" class="ui compact celled definition table">
+			<tbody>
+				<tr>
+					<td>
+						<i class="marker icon"></i> Début Course
+					</td>
+					<td id="debut"></td>
+				</tr>
+				
+				<tr>
+				  <td class="collapsing">
+					<i class="Finish flag icon icon"></i> Destination 
+				  </td>
+				  <td id="destination" ></td>
+				</tr>
+				
+				<tr>
+				  <td class="collapsing">
+					<i class="Finish flag icon icon"></i> Durée Totale 
+				  </td>
+				  <td id="commentaire" ></td>
+				</tr>
+				
+				<tr>
+				  <td class="collapsing">
+					<i class="Finish flag icon icon"></i> Bagages 
+				  </td>
+				  <td id="bagages" ></td>
+				</tr>
+				
+				<tr>
+				  <td class="collapsing">
+					<i class="Finish flag icon icon"></i> Animaux 
+				  </td>
+				  <td id="animaux" ></td>
+				</tr>
+				
+				<tr>
+				  <td class="collapsing">
+					<i class="Finish flag icon icon"></i> animaux_grands 
+				  </td>
+				  <td id="animaux_grands" ></td>
+				</tr>
+				
+				<tr>
+				  <td class="collapsing">
+					<i class="Finish flag icon icon"></i> entreprise 
+				  </td>
+				  <td id="entreprise" ></td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
+		
+		
+		<div id="div2" class="ui two item menu" style="display : none">
+			<input type="button" id="acp2" onclick="course_accepter2();" class="fluid ui blue button" style="display : none" value=" Accepter">
+	        <input type="button" id="rfs2" onclick="course_refuser2();" class="fluid ui red button" style="display : none" value=" Refuser">
+		</div>
+    </div>
+		
+	<!-- CONTENU DE L'ONGLET CARTE -->
+	<div id="carte" class="ui active tab" data-tab="carte">
+		<!-- Carte -->
+		<div id="map"></div>
+	</div>
+
+	<!-- CONTENU DE L'ONGLET TRAJET JUSQU'AU CLIENT -->
+	<div class="ui tab" data-tab="client">
+	  <div id="tableau" style="height:350px;overflow:auto">
+			<table class="ui small celled striped table" sytle="width:100%">
+				<thead>
+					<tr>
+						<th>distance</th>
+						<th>duration</th>
+						<th>instruction</th>
+					</tr>
+				</thead>
+				<tbody id="steps_trajet"></tbody>				
+			</table>
+		</div>
+	</div>
+
+	<!-- CONTENU DE L'ONGLET TRAJET COURSE -->
+	<div class="ui tab" data-tab="course">
+	  <div id="tableau" style="height:350px;overflow:auto">
+			<table class="ui small celled striped table" sytle="width:100%">
+				<thead>
+					<tr>
+						<th>distance</th>
+						<th>duration</th>
+						<th>instruction</th>
+					</tr>
+				</thead>
+				<tbody id="steps_course"></tbody>
+			</table>
+		</div>
+	</div>
+	
+	
+    
+	<script type="text/javascript">
+		// modal pour afficher la liste des statuts disponibles
+		$(document).ready(function(){
+		   $('#changementStatut').click(function(){
+			  $('#modaldiv').modal({blurring: true}).modal('show');   
+		   });
+		});
+
+		// Onglets
+		$('.menu .item').tab();
+
+		function Indisponible(){
+           conducteur_maj_statut('Indisponible');
+           var div = document.getElementById("statut");               
+           div.className = "fluid ui orange button";
+           div.onclick = Libre;
+        }
+
+        function Libre(){
+           conducteur_maj_statut('Libre');
+           var div = document.getElementById("statut");               
+           div.className = "fluid ui green button"
+           div.onclick = Indisponible;
+        }
+
+        function Charge(){
+           conducteur_maj_statut('Charge');  
+           var div = document.getElementById("statut");            
+           div.className = "fluid ui red button";
+           div.onclick = Fin;
+           setTimeout(function(){document.getElementById("statut").innerHTML = 'Charge : FIN DE COURSE ?'; }, 1000);
+                     
+        }	
+
+        function Fin(){
+    		console.log('Je suis bien là et num vaut : ' + num);
+    		console.log("/api/conducteurs/FinCourse/numero=" + "{{ conducteur.telephone }}" + "&course=" + num);
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: "/api/conducteurs/FinCourse/numero=" + "{{ conducteur.telephone }}" + "&course=" + num,
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+            Libre();
+            setTimeout(function(){location.reload();}, 1000);                               
+        }
+        // Mettre à jour le statut
+        function conducteur_maj_statut(nouveau_statut) {
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: "/api/conducteurs/maj_statut/telephone=" + "{{ conducteur.telephone }}" + "&statut=" + nouveau_statut,
+                success: function(data) {
+                    var div = document.getElementById('statut');
+                    div.innerHTML = nouveau_statut;
+                }
+            });
+        }
+
+		function course(){
+        	$.ajax({
+                    type: "POST",
+                    async: true,
+                    url: "/api/conducteurs/propositions/"+"{{ conducteur.telephone }}",
+                    success: function(data) { 
+						if (data['status'] == 'Pas de propositions'){
+							var prop = 'Pas de courses proposées'
+						} else{
+							var numero = data['data'][0]['numero'];
+							document.getElementById('prop').innerHTML="<h4><center>Vous avez une nouvelle proposition de course</center></h4>"
+							document.getElementById('acp1').style.display="table";
+							document.getElementById('rfs1').style.display="table";
+							document.getElementById('div1').style.display="flex";
+							document.getElementById('infos').click();							
+						}
+                    }
+                });
+        }
+        course();
+        var num;
+		document.getElementById('tab').style.display="none";
+         function course_rep(rep){
+			 document.getElementById('rfs1').style.display="none";
+			 document.getElementById('acp1').style.display="none";
+			 document.getElementById('div1').style.display="none";
+         	if (rep == 'oui'){
+         		document.getElementById('tab').style.display="table";
+				$.ajax({
+                    type: "POST",
+                    async: true,
+                    url: "/api/conducteurs/propositions/"+"{{ conducteur.telephone }}",
+                    success: function(data) { 
+                    	var div = document.getElementById('numero');                       
+                        num = data['data'][0]['numero'];
+						console.log(num);
+                        var dep = data['data'][0]['depart'];
+						var ariv = data['data'][0]['arrivee'];
+
+						//info course 
+						var commentaire = data['data'][0]['commentaire'];
+												
+						var bagages = data['data'][0]['bagages'];
+						var animaux = data['data'][0]['animaux'];
+						var animaux_grands = data['data'][0]['animaux_grands'];
+						var entreprise = data['data'][0]['entreprise'];
+						
+						document.getElementById('entreprise').innerHTML = entreprise;
+						document.getElementById('animaux_grands').innerHTML = animaux_grands;
+						document.getElementById('animaux').innerHTML = animaux;						
+						document.getElementById('bagages').innerHTML = bagages;						
+						document.getElementById('commentaire').innerHTML = commentaire;	
+
+						$.ajax({
+							type: "POST",
+							async: true,
+							url: "/api/conducteurs/adresses/"+dep,
+							success: function(data) {                      
+								numrued=data['data'][0]['numero'];
+								nomrued = data['data'][0]['nom_rue'];
+								cpd = data['data'][0]['cp'];
+								villed = data['data'][0]['ville'];
+								$.ajax({
+									type: "POST",
+									async: true,
+									url: "/api/conducteurs/adresses/"+ariv,
+									success: function(data) {
+										var deb_course = document.getElementById('debut');
+										var dest_course = document.getElementById('destination');
+										numruea=data['data'][0]['numero'];
+										nomruea = data['data'][0]['nom_rue'];
+										cpa = data['data'][0]['cp'];
+										villea = data['data'][0]['ville'];
+										deb_course.innerHTML=parseInt(numrued)+" "+nomrued+" "+" "+cpd+" "+villed
+										dest_course.innerHTML=parseInt(numruea)+" "+nomruea+" "+" "+cpa+" "+villea
+										
+									}
+								});
+							}
+						});
+                        
+            			  
+                    }
+                });
+				document.getElementById('acp2').style.display="table";
+				document.getElementById('rfs2').style.display="table";
+				document.getElementById('div2').style.display="flex";
+					
+        	}
+			if (rep == 'non'){
+				$.ajax({
+                    type: "POST",
+                    async: true,
+                    url: "/api/conducteurs/propositions/"+"{{ conducteur.telephone }}",
+                    success: function(data) { 
+                    	var div = document.getElementById('numero');
+						
+                        num = data['data'][0]['numero'];
+                        var dep = data['data'][0]['depart'];
+						
+
+						
+						
+                        var answer = confirm("Etes-vous sur de ne pas vouloir prendre cette course?");
+            			if (answer) {
+							$.ajax({
+								type: "POST",
+								async: true,
+								url: "/api/conducteurs/refuser1/numero=" + "{{ conducteur.telephone }}" + "&course=" + num,
+								success: function(data) {
+									console.log(data);
+								}
+							});
+							Indisponible();
+							document.getElementById('prop').innerHTML="<h4><center>Vous avez aucune nouvelle proposition de course</center></h4>"
+						}   
+                    }
+                });
+				
+			}
+        }
+		function course_accepter2(){
+			$.ajax({
+			type: "POST",
+			async: true,
+			url: "/api/conducteurs/accepter/numero=" + "{{ conducteur.telephone }}" + "&course=" + num,
+			success: function(data) {
+			console.log(data);
+			}
+			});
+			trajet_client();
+			trajet_course();
+			Charge();
+			document.getElementById('rfs2').style.display="none";
+			document.getElementById('acp2').style.display="none";
+			document.getElementById('div2').style.display="none";
+			document.getElementById('prop').style.display="none";
+			document.getElementById('carte').click();			
+		}
+			
+		function course_refuser2(){
+				var answer = confirm("Etes-vous sur de ne pas vouloir prendre cette course ?\n Cela entrainera une pénalité de 4 heures !!");
+            	if (answer) {
+					$.ajax({
+					type: "POST",
+					async: true,
+					url: "/api/conducteurs/refuser2/numero=" + "{{ conducteur.telephone }}" + "&course=" + num,
+					success: function(data) {
+						console.log(data);
+						}
+					});
+					Indisponible();
+					document.getElementById('prop').innerHTML="<h4><center>Vous avez aucune nouvelle proposition de course</center></h4>";
+					setTimeout(function(){location.reload();}, 1000);
+				}
+			}
+
+        // Affichage de la carte
+        L.mapbox.accessToken = 'pk.eyJ1IjoibGVtYXgiLCJhIjoidnNDV1kzNCJ9.iH26jLhEuimYd6vLOO6v1g';
+        var map = L.mapbox.map('map', 'mapbox.dc-markers', 'mapbox.outdoors', {
+            maxZoom: 20,
+            fullscreenControl: true,
+            zoomControl: false
+        })
+        var layers = {
+            "Basique": L.mapbox.tileLayer('mapbox.outdoors').addTo(map),
+            "Lumineuse": L.mapbox.tileLayer('mapbox.light'),
+            "Sombre": L.mapbox.tileLayer('mapbox.dark'),
+            "Comics": L.mapbox.tileLayer('mapbox.comic'),
+            "Crayon": L.mapbox.tileLayer('mapbox.pencil')
+        }
+        L.control.layers(
+            layers,
+            null,
+            {position: 'topleft'}
+        ).addTo(map);
+
+        // Position initiale du conducteur
+        map.setView([{{ conducteur.lat }}, {{ conducteur.lon }}], 13);
+        taxi = L.marker([{{ conducteur.lat }}, {{ conducteur.lon }}]);
+        taxi.addTo(map);
+
+        // Rafraîchir la position du conducteur
+        function conducteur_rafraichir_position(lat, lon) {
+            // Rafraîchir la position sur la carte
+            map.removeLayer(taxi);
+            //map.setView([lat, lon], 13);
+            taxi = L.marker([lat, lon]);
+            taxi.addTo(map);
+            // Envoyer la nouvelle position à la base de données
+            $.ajax({
+                type: "POST",
+                async: true,
+                url: "/api/conducteurs/maj_position/telephone=" + {{ conducteur.telephone }} + "&lat=" + lat + "&lon=" + lon,
+                success: function(data) {
+                    statut = data.statut;
+                }
+            });
+        };
+
+        // Geolocalisation via le navigateur
+        var geoOptions = {
+            enableHighAccuracy: true,
+            timeout: 5000
+        };
+        function geoSuccess(pos) {
+            var lat = pos.coords.latitude;
+            var lon = pos.coords.longitude;
+            conducteur_rafraichir_position(lat, lon)
+        };
+        function geoError(err) {
+            navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+        };
+        navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+		
+		lon = {{ conducteur.lon }};
+        lat = {{ conducteur.lat }};
+        position = [lat, lon];
+		
+        // Mettre à jour la position périodiquement
+        window.setInterval(function(){
+            navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+        }, 30000);
+
+        // Mettre à jour le GPS
+        window.setInterval(function(){
+            gps();
+        }, 100000);
+
+        window.setInterval(function(){
+            course();
+        }, 30000);
+
+                // Demander course tous les ...
+        /*window.setInterval(function(){
+            course();
+        }, 60000);*/
+        
+	// trajet position -> client
+	function trajet_client(){
+		///ajax
+		$.ajax({
+			type: "POST",
+			async: true,
+			url: "/api/conducteurs/propositions/"+"{{ conducteur.telephone }}",
+			success: function(data) {                       
+			num = data['data'][0]['numero'];
+			var dep = data['data'][0]['depart'];
+			$.ajax({
+				type: "POST",
+				async: true,
+				url: "/api/conducteurs/adresses/"+dep,
+				success: function(data) {                      
+					numrued=data['data'][0]['numero'];
+					nomrued = data['data'][0]['nom_rue'];
+					cpd = data['data'][0]['cp'];
+					villed = data['data'][0]['ville'];
+					adresse_client = parseInt(numrued)+" "+nomrued+" "+" "+cpd+" "+villed;
+					
+					departLat= position[0]
+					departLon = position[1]
+					console.log('ok')
+					var positions = {
+						"lonposition" : departLat,
+						"latposition" : departLon,
+						"adresse" : adresse_client
+					}
+					console.log(JSON.stringify(positions))
+					$.ajax({
+						type: "POST",
+						async: true,
+						contentType: "application/json; charset=utf-8",
+						url: "/gps",
+						data: JSON.stringify(positions)
+					}).done(function(reponse) {
+					//declaration var
+						var depart = reponse.AdressDep;
+						var arrivee = reponse.AdressArr;
+						var steps = reponse.steps;
+						var distanceTot = reponse.distanceTot;
+						var durationTot = reponse.durationTot;
+						var polyline = reponse.polyline;
+						console.log("polyline:")
+						console.log(polyline);
+						
+						var divDepart = document.getElementById('position_conducteur');
+						var divArrivee = document.getElementById('position_client');
+						var divDureeTot = document.getElementById('dureeTotale_trajet');
+						var divDistanceTot = document.getElementById('distanceTotale_trajet');
+						var divSteps= document.getElementById('steps_trajet');
+						var divPolyline= document.getElementById('polyline');
+						console.log("divPolyline")
+						console.log(divPolyline)
+					
+
+					/* test GPS	
+					//initialisation des balises
+						divDepart.innerHTML = depart;
+						divArrivee.innerHTML = arrivee;
+						divDureeTot.innerHTML = durationTot;
+						divDistanceTot.innerHTML = distanceTot;
+					*/	
+						var polyline = L.Polyline.fromEncoded(polyline);
+						
+						//var maneuvers = routes[i]['maneuvers'];
+						var nodes = polyline.getLatLngs();
+						// Extract the latitudes and longitudes into an array
+						var path = [];
+						for (var j = 0; j < nodes.length; j++) {
+							var lat = nodes[j]['lat'];
+							var lon = nodes[j]['lng'];
+							path.push([lat, lon]);
+						}
+						
+						var pathColor = 'blue';
+						// Add the path to the map				
+						L.polyline(path, {
+										color: pathColor,
+										weight: 10,
+										opacity: .7,
+										lineJoin: 'round'
+									}).addTo(map);
+						for (i=0; i<steps.length; i++) {
+							step = "<tr><td>"+steps[i]['distance']['text']+"</td>"+"<td>"+steps[i]['duration']['text'] + "</td>"+"<td>"+steps[i]['html_instructions']+"</td></tr>";
+							divSteps.innerHTML = divSteps.innerHTML + step;
+						}
+				
+					});
+				}
+			});
+			}
+		});
+	}
+	//trajet client -> adresse finale
+	function trajet_course(){
+		///ajax
+		$.ajax({
+			type: "POST",
+			async: true,
+			url: "/api/conducteurs/propositions/"+"{{ conducteur.telephone }}",
+			success: function(data) {                       
+			num = data['data'][0]['numero'];
+			var dep = data['data'][0]['depart'];
+			var ariv = data['data'][0]['arrivee'];
+			$.ajax({
+				type: "POST",
+				async: true,
+				url: "/api/conducteurs/adresses/"+ariv,
+				success: function(data) {                      
+					numrued=data['data'][0]['numero'];
+					nomrued = data['data'][0]['nom_rue'];
+					cpd = data['data'][0]['cp'];
+					villed = data['data'][0]['ville'];
+					arriveeLat=data['data'][0]['lat'];
+					arriveeLon = data['data'][0]['lon'];
+					adresse_client = parseInt(numrued)+" "+nomrued+" "+" "+cpd+" "+villed;
+					$.ajax({
+								type: "POST",
+								async: true,
+								url: "/api/conducteurs/adresses/"+dep,
+								success: function(data) {
+								departLat=data['data'][0]['lat'];
+								departLon = data['data'][0]['lon'];
+								client= L.marker([departLat, departLon]);
+								client.addTo(map);
+								
+						console.log('ok')
+						var positions = {
+							"lonposition" : departLat,
+							"latposition" : departLon,
+							"adresse" : adresse_client
+						}
+						console.log(JSON.stringify(positions))
+						$.ajax({
+							type: "POST",
+							async: true,
+							contentType: "application/json; charset=utf-8",
+							url: "/gps",
+							data: JSON.stringify(positions)
+						}).done(function(reponse) {
+						//declaration var
+							var depart = reponse.AdressDep;
+							var arrivee = reponse.AdressArr;
+							var steps = reponse.steps;
+							var distanceTot = reponse.distanceTot;
+							var durationTot = reponse.durationTot;
+							var polyline = reponse.polyline;
+							console.log("polyline:")
+							console.log(polyline);
+							
+							
+							var divDepart = document.getElementById('depart_course');
+							var divArrivee = document.getElementById('arrivee_course');
+							var divDureeTot = document.getElementById('dureeTotale_course');
+							var divDistanceTot = document.getElementById('distanceTotale_course');
+							var divSteps= document.getElementById('steps_course');
+							var divPolyline= document.getElementById('polyline_course');
+							
+							console.log("divPolyline")
+							console.log(divPolyline)
+							
+							
+						//initialisation des balises
+						/* test GPS
+							divDepart.innerHTML = depart;
+							divArrivee.innerHTML = arrivee;
+							divDureeTot.innerHTML = durationTot;
+							divDistanceTot.innerHTML = distanceTot;
+						*/	
+							var polyline = L.Polyline.fromEncoded(polyline);
+							
+							//var maneuvers = routes[i]['maneuvers'];
+							var nodes = polyline.getLatLngs();
+							// Extract the latitudes and longitudes into an array
+							var path = [];
+							for (var j = 0; j < nodes.length; j++) {
+								var lat = nodes[j]['lat'];
+								var lon = nodes[j]['lng'];
+								path.push([lat, lon]);
+							}
+							destination = L.marker([lat, lon]);
+							destination.addTo(map);
+							var pathColor = 'blue';
+							// Add the path to the map				
+							L.polyline(path, {
+											color: pathColor,
+											weight: 10,
+											opacity: .7,
+											lineJoin: 'round'
+										}).addTo(map);
+							for (i=0; i<steps.length; i++) {
+								step = "<tr><td>"+steps[i]['distance']['text']+"</td>"+"<td>"+steps[i]['duration']['text'] + "</td>"+"<td>"+steps[i]['html_instructions']+"</td></tr>";
+								divSteps.innerHTML = divSteps.innerHTML + step;
+							}
+					
+						});
+					}
+				});
+					
+					}
+				});
+			}
+		});
+	}
+    </script>
+
+<div id="footer">
+	{% endblock %}
+</div>

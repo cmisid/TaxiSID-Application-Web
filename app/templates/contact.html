@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+
+	<h1 class="ui header">{{ titre }}</h1>
+
+	{% if current_user.is_authenticated %}
+	  	<h2 class="ui header">Bonjour {{ current_user.prenom }}!</h2>
+	{% endif %}
+
+	{% if request.MOBILE %}
+	<div class="ui center raised text container orange segment">
+	{% else %}
+	<div class="ui contenu-centre center raised text container orange segment">
+	{% endif %}
+		<h2 class="ui center aligned icon header">
+  			<i class="tiny mail icon"></i> Nous contacter
+		</h2>
+
+		<form class="ui form" id="contactform" action="/contact" method="POST">
+           
+	        <h4 class="ui orange dividing header">Envoi d'un message par mail</h4>  
+	        <div class="three fields">
+	            <div class="four wide field">
+	            {{ m.render_field(form.nom)}}
+	            </div>
+	            <div class="six wide field">
+	            {{ m.render_field(form.prenom)}}
+	            </div>
+	            <div class="six wide field">
+	            	<div class="ui left icon input">
+                    <i class="mail outline icon"></i>
+                    	{{ m.render_field(form.email)}}
+                	</div>
+	            </div>
+	        </div>
+	        <div class="field">
+	            {{ m.render_field(form.objet)}}
+	        </div>
+	        <div class="field">               
+            	<textarea id="sujet" name="sujet" form="contactform" placeholder="Entrez votre message ici..."></textarea>
+	        </div>
+	    	{{ form.csrf_token }}
+	    	<br><button class="fluid ui inverted blue button" type="submit"><i class="send outline icon"></i>Envoyer</button>
+	    </form>
+
+	</div>
+
+
+{% endblock %}

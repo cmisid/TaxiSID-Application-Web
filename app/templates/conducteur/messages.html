@@ -1,0 +1,209 @@
+{% extends "layout conducteur.html" %}
+
+{% block head %}
+    {{ super() }}
+    <!-- Leaflet JS -->
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.js'></script>
+    <!-- Leaflet CSS -->
+    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.9/mapbox.css' rel='stylesheet'/>
+  <!-- Google polyline decoder -->
+    <script src="/static/js/map/Polyline.encoded.js"></script>
+    <!-- Map style -->
+    <style id="MAIN">
+    #global{
+      width:100%;
+    }
+    #tableau, #map {
+      display: inline-block;
+      vertical-align: top;
+    }
+    #tableau {
+      float: left;
+      width: 100%;
+      height: 100px;
+    }
+    #map {
+      width:100%;
+      height: 400px;
+    }
+    #footer{
+      
+      bottom:0;
+      left:0;
+      height:100px;
+    }
+    .centrage {
+      text-align: 
+      center;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+ <!-- BARRE D'ONGLETS -->
+    <div id="tabs" class="four black-text yellow ui inverted black buttons">
+        <button class="ui inverted button" onclick="self.location.href='/conducteur/'+'{{ conducteur.telephone }}'"><i class="home icon"></i></button>
+        <button id="test1" class="ui inverted button" onclick="self.location.href='/conducteur/courses/'+'{{ conducteur.telephone }}'"><i class="taxi icon"></i></button>
+        <button class="ui active inverted button" onclick="self.location.href='/conducteur/messages/'+'{{ conducteur.telephone }}'"><i class="mail icon"></i></button>
+        <button class="ui inverted button" onclick="self.location.href='/conducteur/informations/'+'{{ conducteur.telephone }}'"><i class="info circle icon"></i></button>
+    </div>
+  
+  <div class="centrage">
+    <div style="line-height:3; font-size:3px;"><br></div> 
+    <img src="/static/img/taxisid.png" width="15%" height="15%" alt="TAXISID" style="vertical-align:middle" />
+    <br>
+    <b style="font:helvetica;font-size:10px;">Bonjour {{ conducteur.prenom }} {{ conducteur.nom }}</b>
+    <div style="line-height:3; font-size:3px;"><br></div>
+  </div>
+
+
+    <form>
+        <!-- Bouton "Envoyer message" qui permet d'envoyer un message en appelant la fonction ajout_message -->
+        <input type="button" onclick="ajout_message({{ conducteur.telephone }});" class="ui button" value="Envoyer message">        
+        <!-- Bouton pour rafraîchir la page -->        
+        <button class="ui icon button" onclick="document.location.reload(); return false;"><i class="refresh icon"></i></button>    
+    </form>
+
+ <script type="text/javascript">
+            
+          // Variable number initialisée à 0 (signifie première ligne de la table messages)
+             var number = 0;
+          // Fonction Message suivant qui rajoute 1 à number
+          // et qui permet d'afficher la ligne suivante de la table messages
+             function message_suivant() {
+                    var nom = document.getElementById('nom');
+				var suj = document.getElementById('sujet');
+				var date = document.getElementById('date');
+                number = number + 1;
+				if (number == {{nb_message}}){
+					number = 0;
+					$.ajax({
+						type: "POST",
+						async: true,
+						url: "/api/messages/derniers_messages",
+						success: function(data) { 
+						nom.innerHTML = data['data'][number]['nom'] + " " + data['data'][number]['prenom'];
+						suj.innerHTML = data['data'][number]['sujet'];
+						date.innerHTML = "Heure : " + data['data'][number]['date'];
+						}
+					});
+				}else {
+					$.ajax({
+						type: "POST",
+						async: true,
+						url: "/api/messages/derniers_messages",
+						success: function(data) { 
+						nom.innerHTML = data['data'][number]['nom'] + " " + data['data'][number]['prenom'];
+						suj.innerHTML = data['data'][number]['sujet'];
+						date.innerHTML = "Heure : " + data['data'][number]['date'];
+						}
+					});
+				}
+			 }
+
+         // Fonction Message précédent qui retire 1 à number
+         // et qui permet d'afficher la ligne précédente de la table messages
+			function message_precedent() {
+                    var nom = document.getElementById('nom');
+				var suj = document.getElementById('sujet');
+				var date = document.getElementById('date');
+                number = number - 1;
+				if (number < 0){
+					number = {{nb_message}} - 1;
+					$.ajax({
+						type: "POST",
+						async: true,
+						url: "/api/messages/derniers_messages",
+						success: function(data) { 
+						nom.innerHTML = data['data'][number]['nom'] + " " + data['data'][number]['prenom'];
+						suj.innerHTML = data['data'][number]['sujet'];
+						date.innerHTML = "Heure : " + data['data'][number]['date'];
+						}
+					});
+				}else {
+					$.ajax({
+						type: "POST",
+						async: true,
+						url: "/api/messages/derniers_messages",
+						success: function(data) { 
+						nom.innerHTML = data['data'][number]['nom'] + " " + data['data'][number]['prenom'];
+						suj.innerHTML = data['data'][number]['sujet'];
+						date.innerHTML = "Heure : " + data['data'][number]['date'];
+						}
+					});
+				}
+			 }
+
+         // Ajouter un message
+            function ajout_message(num) {
+                    message = prompt('Nouveau message');
+                    $.ajax({
+					type: "POST",
+					async: true,
+					url: "/api/messages/nouveau_message/telephone=" + num + "&message=" + message,
+					success: function(data) { 
+                                    console.log("succes");
+						}
+					});
+                         alert("Votre message a bien été envoyé");
+                         document.location.reload();
+            }
+  </script>
+
+  <!-- Affichage lorqu'il n'y a pas de messages -->
+  {% if nb_message == 0 %}
+
+  <table>
+    <tbody>
+        <tr>
+            <td>
+                <h1>
+                    <i> Pas de messages </i>
+                </h1>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+  <!-- Affichage lorqu'il y a des messages -->
+  {% else %}
+
+  <table class="ui compact celled definition table">
+    <thead>
+        <tr>
+            <th>
+                <h5>
+                    <i id="date"> Heure : {{ messages[0][2] }} </i>
+                </h5>
+            </th>
+        </tr>
+    </thead>
+    <tbody id="messages">
+        <tr>
+            <td>
+                <h5>
+                    <i id="nom"> {{ messages[0][0] }} {{ messages[0][1] }} </i>
+                </h5>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h1>
+                    <strong id="sujet"> {{ messages[0][3] }} </strong>
+                </h1>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+
+    <form>
+        <!-- Bouton "Message Précédent" qui permet d'afficher le message précédent en appelant la fonction message_precedent -->   
+        <input type="button" onclick="message_precedent();" class="ui left button" value="&lArr;">
+        <!-- Bouton "Message Suivant" qui permet d'afficher le message suivant en appelant la fonction message_suivant -->        
+        <input type="button" onclick="message_suivant();" class="ui right floated button" value="&rArr;"> 
+    </form>
+
+    {% endif %}
+
+{% endblock %}

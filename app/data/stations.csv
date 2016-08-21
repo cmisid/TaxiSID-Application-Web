@@ -1,0 +1,36 @@
+nom,entree,sortie,nom_rue,numero,cp,ville,lat,lon
+Esquirol,100,200,Place Esquirol,12,31000,Toulouse,43.600427,1.444587
+Capitole,100,200,Place du Capitole,1,31000,Toulouse,43.6040488,1.4430474000000686
+Faculté de pharmacie,100,200,Tripode C,7230,31077,Toulouse,43.56805079999999,1.4646139000000176
+Blagnac,100,200,Blagnac,10,31000,Toulouse,43.61734790000001,1.4080569000000196
+Colomiers,100,200,Colomiers,2,31000,Toulouse,43.65055599999999,1.3409755999999788
+Tournefeuille,100,200,Tournefeuille,11,31000,Toulouse,43.5989643,1.3720390999999381
+Balma,100,200,Balma,1,31000,Toulouse,43.609798,1.4955959999999777
+La Cepiere,100,200,La Cepiere,12,31000,Toulouse,43.5880956,1.407239200000049
+Rangueil,100,200,Rangueil,32,31000,Toulouse,43.5658462,1.4579696000000695
+Ramonville,100,200,Ramonville,10,31000,Toulouse,43.5447609,1.471523599999955
+Minimes,100,200,Minimes,42,31000,Toulouse,43.62140249999999,1.4313889999999674
+Wilson,478,587,Maurice Fonvieille,3,31000,Toulouse,43.604029,1.448603
+Carmes,360,489,Bibliotheque Fabre,6,31000,Toulouse,43.597159,1.443235
+Arene,189,242,Place Agapito Nadal,4,31300,Toulouse,43.593267,1.418716
+Prison St Michel,483,814,Avenue de l’URSS,62,31400,Toulouse,43.583217,1.448172
+Borderouge,486,636,Boulevard Andre Netwiller,37,31200,Toulouse,43.641221,1.452928
+Jeanne d’Arc,112,208,Place Jeanne d’Arc,3,31000,Toulouse,43.609144,1.446063
+Gare,96,197,Boulevard Pierre Semard,68,31500,Toulouse,43.611875,1.452694
+Compans,129,283,Esplanade Compans Caffarelli,7,31000,Toulouse,43.610448,1.434936
+Purpan,109,200,Place du Dr Joseph Baylac,,31300,Toulouse,43.607948,1.397361
+Cite Espace,846,1024,Impasse Eugene Trutat,3,31500,Toulouse,43.584282,1.485439
+Basso Cambo,1090,1190,Rue Michel Labrousse,14,31100,Toulouse,43.568842,1.386128
+CNES,300,448,Avenue Edouard Belin,12,31400,Toulouse, 43.563104,1.479518
+Thales Aléria,200,392,Impasse Jean Francois Champollion,1,31100,Toulouse,43.547109,1.394190
+Roseraie,482,780,Rue Louis Plana,87,31500,Toulouse,43.613978,1.475400
+Metro Argoulet,164,274,Chemin du Verdon,3,31500,Toulouse,43.624945,1.477042
+Fondere,1010,1500,Avenue des Etats Unis,231,31200,Toulouse,43.645112,1.425312
+Saint Cyprien,117,210,Place Intérieure Saint Cyprien,16,31300,Toulouse,43.598046,1.431768
+La crabe,162,284,Chemin de l’Espeissiere,26,31300,Toulouse,43.611227,1.371816
+Astrium,96,206,Rue des Cosmonautes,30,31400,Toulouse,43.560103,1.496007
+Aeroport,1130,1750,Avenue de Londres,15,31700,Blagnac,43.633679,1.372302
+Hopital Rangueil,463,872,Chemin des Oliviers,22,31400,Toulouse,43.559741,1.451977
+Parc Expo,157,298,Allee du Professeur Camille Soula,2,31400,Toulouse,43.588287,1.437062
+Barriere de Paris,89,200,La Barriere de Paris,25,31200,Toulouse,43.626943,1.433801
+Oncopole,375,678,Avenue Irene Julio Curie,1,31100,Toulouse,43.555273,1.425517

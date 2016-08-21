@@ -1,0 +1,103 @@
+/* Layout */
+
+html,
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+   overflow-x: hidden;
+}
+
+div.centre
+{
+  text-align: left;
+  width: 700px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#container {
+   height: 100%;
+   min-height: 100%;
+   position: relative;
+}
+
+#body {
+   margin: 30px;
+   min-height: 100%;
+}
+
+#footer {
+   bottom: 0;
+   width: 100%;
+   height: 50px;   /* Height of the footer */
+   text-align: center;
+}
+
+/* Forms */
+
+.formulaire-utilisateur {
+   width: 33% !important;
+   margin: 0 auto !important;
+   margin-top: 10% !important;
+}
+
+.formulaire-erreur {
+   color: #E50000 !important;
+}
+
+
+.contenu-centre {
+   width: 66% !important;
+   margin: 0 auto !important;
+}
+/* Flask flashes */
+
+.flash {
+   margin-right: 20px !important;
+}
+
+/* Erreurs */
+
+.erreur-boite {
+   margin-top: 8%;
+}
+
+/* Barre de navigation pour mobile */
+
+
+.mobile.row{
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+}
+
+.mobile.row .ui.inverted.menu{
+  border-radius: 0px !important;
+}
+
+
+.ui.message{
+  padding: 20px !important;
+}
+
+@media (max-width: 767px) {
+  .ui.vertical.menu.navbar{
+    margin-top: 0px !important;
+  }
+
+  body {
+   margin:0;
+   padding:0;
+   margin-top: 40px;
+   height:100%;
+   overflow-x: hidden;
+  }
+}
+
+.ui.vertical.menu{
+  margin-top: 0px !important;
+  padding-top: 14px;
+  width: 100%;
+  display: none;
+}

@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+  <h1 class="ui header">{{ titre }}</h1>
+
+  <h1 class="ui header">Bonjour {{ current_user.prenom }} {{ current_user.nom }}!</h1>
+
+<div class="ui two column centered grid">
+  <div class="left floated six wide column">
+    <div class="ui card">
+      <div class="image">
+        <img src="{{ url_for('static', filename='img/matthew.png') }}">
+      </div>
+      <div class="content">
+        <div class="header">{{ current_user.prenom }} {{ current_user.nom }}</div>
+        <div class="meta">
+          {{ adresse.numero }} {{ adresse.nom_rue }} 
+          <h5 class="ui orange header">{{ adresse.cp }} {{ adresse.ville }}</h5>
+        </div>
+        <div class="description">
+          {{ current_user.email }}
+          {% if current_user.confirmation %}
+            <br><i>(email vérifié)</i>
+          {% else %}
+            <br><i>(email non confirmé)</i>
+          {% endif %}
+          <br> 
+          {{ current_user.telephone }}<br> 
+          
+        </div>
+      </div>
+      <div class="extra content">
+        <span class="right floated">
+          Inscrit le {{ current_user.inscription.strftime('%d-%m-%Y') }}
+        </span>
+        <span>
+          <i class="orange taxi icon"></i>
+          {% if nbCourses == 1 %}
+            {{ nbCourses }} trajet
+          {% else %}
+            {{ nbCourses }} trajets
+          {% endif %}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="right floated ten wide column">
+    <h2 class="ui header"><i class="list icon"></i>Historique des trajets</h1>
+
+    <table class="ui orange table">
+      <thead>
+        <tr>
+          <th>Départ</th>
+          <th>Arrivée</th>
+          <th>Date de la course</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ligne in test %}
+        <tr>
+          <td>{{ ligne.depart }}</td>
+          <td>{{ ligne.arrivee }}</td>
+          <td>{{ ligne.debut }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2 class="ui header"><i class="edit icon"></i>Modifier mes données</h1>
+
+    <script language='javascript'>
+      $(document).ready(function(){
+           $('#editProfile').click(function(){
+              $('#modaldiv').modal('show');    
+           });
+      });
+    </script>
+    
+    <a class="item" id="editProfile">
+    <button class="fluid ui inverted red button active">Editer</button>
+    </a>
+
+    <div id="modaldiv"  class="ui modal">
+      <i class="close icon"></i>
+      <div class="header">
+        Modifications des données
+      </div>
+      <div class="ui content">
+      {% if request.MOBILE %}
+      <div class="ui center raised very padded text container segment">
+      {% else %}
+      <div class="ui formulaire-utilisateur center raised very padded text container segment">
+      {% endif %}
+          <form class="ui form" action="/utilisateur/compte" method="POST">
+            <h4 class="ui dividing header">Champs à modifier</h4>
+              <div class="two fields">
+                    <div class="sixteen wide field">
+                        {{ m.pre_render_field(form.prenom, current_user.prenom) }}
+                    </div> 
+              </div>  
+              <div class="two fields">
+                    <div class="sixteen wide field">
+                        {{ m.pre_render_field(form.nom, current_user.nom) }}
+                    </div> 
+              </div>
+              <div class="two fields">
+                    <div class="sixteen wide field">
+                        {{ m.pre_render_field(form.telephone, current_user.telephone) }}
+                    </div> 
+              </div>
+              {{ form.csrf_token }}
+              <button class="ui primary button" type="submit">Valider</button>
+          </form>
+      </div>
+      </div>
+
+      <div class="actions">
+        <div class="ui black deny button">
+          Annuler
+        </div>
+      </div>
+    </div>
+
+  </div>  
+</div>
+
+{% endblock %}

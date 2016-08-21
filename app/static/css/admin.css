@@ -1,0 +1,119 @@
+/*Corps de la page*/
+body {
+	height : 100%;
+	color : rgb(0,0,0);
+	background-color : rgb(247,247,247);
+}
+
+
+/*Changements des titres*/
+h1{
+	color : rgb(0,0,0);
+}
+h3{
+	color : rgb(224,123,83);
+}
+
+
+/*Changements du contenu*/
+#content {
+	background : white;
+	border : 1px solid #CCC;
+	padding : 15px 20px 30px 35px;
+}
+#content .row {
+    margin-left : 0px;
+}
+
+
+/*Changements barre de recherche*/
+.search-form {
+	margin : 0 5px;
+}
+.search-form form {
+	margin : 0;
+}
+
+
+/*Changements barre recherche et "avec la sélection"*/
+.btn-menu {
+    margin : 4px 5px 0 0;
+    float : right;
+}
+.btn-menu a, .btn-menu input {
+	padding: 7px 16px !important;
+	border-radius : 1px !important;
+	border-color : #ccc;
+}
+
+
+/*Changements barre recherche, première ligne tableau
+et "avec la sélection"*/
+.btn, textarea, input[type], button, .model-list {
+	border-radius : 0;
+}
+
+
+/*Changements première ligne du tableau*/
+.model-list {
+	border-radius : 0;
+}
+
+
+/*Changement de la couleur de la barre de navigation*/
+/*Barre entière*/
+.nav-pills {
+	background-color : rgb(0,0,0);
+	color : rgb(233,233,233);
+	margin-left : auto;
+ 	margin-right : auto;
+}
+/*Couleur écriture non sélectionnée*/
+.nav-pills li > a {
+	border-radius : 0;
+	color : rgb(233,233,233);
+}
+/*Couleur écriture quand on passe avec la souris*/
+.nav-pills li > a:hover {
+	background-color : rgb(45,46,47);
+	color : rgb(255,255,255);
+}
+/*Couleur fond bouton de la page active*/
+.nav-pills li.active > a,
+.nav-pills li.active > a:hover,
+.dropdown-toggle li.active > a {
+	background-color : rgb(242,113,28) !important;
+}
+/*Couleur des listes déroulantes*/
+.dropdown ul {
+	background-color : rgb(0,0,0) !important;
+	color : rgb(233,233,233) !important;
+}
+/*Couleur dans la liste déroulante du bouton sélectionné*/
+.dropdown-menu > .active a,
+.dropdown-menu > .active a:hover,
+.dropdown-menu > .active a:focus {
+	background-image : linear-gradient(to bottom, rgb(242,113,28) 0px, rgb(242,113,28) 100%) !important;
+}
+/*Couleur dans la liste déroulante quand on passe avec la souris*/
+.dropdown-menu li a:hover{
+	background-image : linear-gradient(to bottom, rgb(45,46,47) 0px, rgb(45,46,47) 100%) !important;
+	color : rgb(255,255,255)
+}
+/*Couleur du bouton ouvert*/
+.nav .open .dropdown-toggle {
+	background-color : rgb(242,113,28) !important;
+}
+/*Changer couleur écriture des titres de colonnes*/
+thead {
+	color : rgb(51,122,206);
+}
+
+
+/*Petites flèches pour les listes déroulantes*/
+.select2-container .select2-choice {
+	border-radius : 0;
+}
+a.dropdown-toggle b.caret {
+    margin-left : 5px;
+}

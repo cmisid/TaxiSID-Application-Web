@@ -1,0 +1,125 @@
+{% import "macros.html" as m %}
+
+<!DOCTYPE html>
+<html lang="en">
+	<div id="container">
+   		<div id="header">
+   			{% block head %}
+				<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
+				<meta charset="UTF-8">
+				<link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+				<!-- jQuery -->
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+				<!-- Semantic principal -->
+				<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+			    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.7/components/form.min.js"></script>
+				<!-- CSS maison -->
+				<link rel="stylesheet" href="{{ url_for('static', filename='css/maison.css') }}">
+			{% endblock %}
+   		</div>
+   		
+   		<div id="body" class="body">
+			{% block content %}
+
+			<div class="ui center raised text container pink segment">
+				<h2 class="ui center aligned icon header">
+						<i class="tiny calculator icon"></i> Devis
+				</h2>
+<div class="ui segments">
+				<!-- Tarifs -->
+				<div class="ui blue segment">
+					{{ m.segment_devis_prix("Prix total de la course", devis.prix.total, "help circle icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prise en charge", devis.detail.prise_en_charge) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis("Kilomètres estimés", devis.detail.parcours.distance) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par kilomètre", devis.detail.parcours.prix_par_km) }}
+					</div>
+				
+				<!-- Suppléments -->
+				{% if devis.detail.gare.prise_en_charge == True %}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prise en charge à la gare SNCF Matabiau", devis.detail.gare.prix) }}
+					</div>
+				{% endif %}
+				{% if devis.detail.aeroport.prise_en_charge == True %}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prise en charge à l'aéroport de Blagnac", devis.detail.aeroport.prix) }}
+					</div>
+				{% endif %}
+
+				</div>
+
+				<!-- Bagages -->
+				<div class="ui segment">
+				{{ m.segment_devis_prix("Bagages", devis.detail.bagages.total, "suitcase icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres de bagages", devis.detail.bagages.nb) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par bagage", devis.detail.bagages.prix) }}
+					</div>
+				</div>
+
+				<!-- Animaux -->
+				<div class="ui segment">
+				{{ m.segment_devis_prix("Animaux", devis.detail.animaux.total, "paw icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres d'animaux", devis.detail.animaux.nb) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par animal", devis.detail.animaux.prix) }}
+					</div>
+				</div>
+				
+				<!-- Supplément -->
+				<div class="ui segment">
+				{{ m.segment_devis("Personnes supplémentaires", devis.detail.personnes.supplementaires.total, "plus icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres de passagers supplémentaires", devis.detail.personnes.supplementaires.nb) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Prix par passager supplémentaire", devis.detail.personnes.supplementaires.prix) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis("Nombres de passagers au total", devis.detail.personnes.nb) }}
+					</div>
+				</div>
+				<div class="ui segment">
+				{{ m.segment_devis("Estimations complémentaires", "", "plus icon") }}
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Trajet du chauffeur de taxi à vide", devis.detail.trajet_a_vide) }}
+					</div>
+					<div class="ui segment">
+					{{ m.segment_devis_prix("Trajet ralenti", devis.detail.tarif_trajet_ralenti) }}
+					</div>
+				</div>
+			</div>
+			</div>
+			
+			{% endblock %}
+		</div>
+
+		<div id="footer" class="footer">
+			<div class="ui center aligned divider"></div>
+	    		<div class="ui divided horizontal footer link list">
+			      	<div class="item">
+			        	TaxiSID
+			      	</div>
+			      	<div class="item">
+			        	<a href="https://github.com/TaxiSID/"><i class="github icon"></i></a>
+			      	</div>
+	    		</div>
+	  		</div>
+		</div>
+	</div>
+</html>
+
+
+
+
+
+
